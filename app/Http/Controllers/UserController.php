@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
-use App\Apartment;
 use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
@@ -14,19 +13,15 @@ class UserController extends Controller
 	}
 
 	public function index(){
-		$apartments = Apartment::where('status',1)->get();
-		return view('users.index',['apartments'=>$apartments]);
+		return view('users.index');
 	}
 
 
 	public function show($id){
 		$data=User::find($id);
-        // $categories=Category::orderBy('id','DESC')->get();
 		return response()->json($data);
 	}
-	public function destroy($data){
-        // Product::find($id);
-
+	public function destroy($id){
 		$data=User::find($id)->delete();
 		return response()->json($data);
 	}

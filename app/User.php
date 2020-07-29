@@ -16,7 +16,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'phone', 'room', 'password','role', 'status','apartment_id'
+        'name', 'email', 'phone', 'password','role', 'status'
     ];
 
     /**
@@ -36,8 +36,4 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function products()
-    {
-        return $this->hasMany('App\Product');
-    }
 }

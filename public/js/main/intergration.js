@@ -9,7 +9,7 @@ var dataTable = $('#users-table').DataTable({
   processing: true,
   serverSide: true,
   ajax:{ type: "GET",
-  url: "/api/v1/users/table",
+  url: "/api/v1/report/market/table",
   error: function (xhr, ajaxOptions, thrownError) {
    if (xhr!=null) {
     if (xhr.responseJSON!=null) {
@@ -22,11 +22,17 @@ var dataTable = $('#users-table').DataTable({
   }
 }},
 columns: [
-{ data: 'id', name: 'id' },
+{ data: 'created_at', name: 'created_at' },
+{ data: 'code', name: 'code' },
 { data: 'name', name: 'name' },
-{ data: 'email', name: 'email' },
 { data: 'phone', name: 'phone' },
-{ data: 'role', name: 'role' },
+{ data: 'advisory', name: 'advisory' },
+{ data: 'feedback', name: 'feedback' },
+{ data: 'dev_plan', name: 'dev_plan' },
+{ data: 'type', name: 'type' },
+{ data: 'scale', name: 'scale' },
+{ data: 'service', name: 'service' },
+{ data: 'type_market', name: 'type_market' },
 { data: 'action', name: 'action' },
 ],
 oLanguage:{
@@ -48,47 +54,42 @@ oLanguage:{
 }
 
 });
-//____________________________________________________________________________________________________
 
-//____________________________________________________________________________________________________
 $("#add-form").submit(function(e){
   e.preventDefault();
 }).validate({
   rules: {
-    name: {
+    advisory: {
       required: true,
-      minlength: 5
     },
-    phone:{
+    feedback:{
       required:true,
-      minlength:10,
-      maxlength:10,
     },
-    email:{
+    dev_plan:{
       required:true,
-      minlength:10,
     },
-    room:{
+    service:{
+      required:true,
+    },
+    type_market:{
       required:true,
     },
   },
   messages: {
-    name: {
-      required: "Hãy nhập họ và tên của bạn",
-      minlength: "Họ và tên ít nhất phải có 5 kí tự"
+    advisory: {
+      required: "Hãy nhập thông tin",
     },
-    phone:{
-      required:"Hãy nhập SĐT",
-      minlength:"Đây không phải số điện thoại",
-      maxlength:"Đây không phải số điện thoại",
+    feedback:{
+      required:"Hãy nhập thông tin",
     },
-    email:{
-      required:"Hãy nhập email",
-      minlength:"Đây không phải email",
+    dev_plan:{
+      required:"Hãy nhập thông tin",
     },
-    password:{
-      required:"Hãy nhập password",
-      minlength:"Mật khẩu ít nhất phải có 8 kí tự",
+    service:{
+      required:"Hãy nhập thông tin",
+    },
+    type_market:{
+      required:"Hãy nhập thông tin",
     },
     
   },
@@ -130,12 +131,17 @@ $("#add-form").submit(function(e){
         // $('#editPost').modal('show');
         $.ajax({
           type: "GET",
-          url: "/users/"+id,
+          url: "/report/market/"+id,
           success: function(response)
           {
-           $('#name').val(response.name);
-           $('#email').val(response.email);
-           $('#phone').val(response.phone);
+           $('#customer_id').val(response.customer_id);
+           $('#advisory').val(response.advisory);
+           $('#feedback').val(response.feedback);
+           $('#dev_plan').val(response.dev_plan);
+           $('#type').val(response.type);
+           $('#scale').val(response.scale);
+           $('#service').val(response.service);
+           $('#type_market').val(response.type_market);
            $('#eid').val(response.id);
            $('.tag_pass').remove();
          },
@@ -154,7 +160,7 @@ $("#add-form").submit(function(e){
       // Delete function
       function alDelete(id){
         swal({
-          title: "Bạn muốn xóa bỏ người dùng?",
+          title: "Bạn chắc muốn xóa bỏ?",
         // text: "Bạn sẽ không thể khôi phục lại bản ghi này!!",
         type: "warning",
         showCancelButton: true,
@@ -167,12 +173,12 @@ $("#add-form").submit(function(e){
         if (isConfirm) {
           $.ajax({
             type: "delete",
-            url: "users/"+id,
+            url: "/report/market/"+id,
             success: function(res)
             {
               if(!res.error) {
-                toastr.success('Thành công!');
-                $('#product-'+id).remove();
+                toastr.success('Đã xóa!');
+                $('#data-'+id).remove();
                 }
               },
               error: function (xhr, ajaxOptions, thrownError) {
@@ -188,55 +194,6 @@ $("#add-form").submit(function(e){
 
       function clearForm(){
         $('#add-form')[0].reset(); 
-
-        $('.tag_pass').remove();
-        $('#eid').val(''); 
-        $('.modal-body').append(`<div class="form-group tag_pass">
-          <label for="name">Password</label>
-          <input type="password" class="form-control" id="password" name="password"  placeholder="Enter password">
-          </div>
-          <div class="form-group tag_pass">
-          <label for="name">Re-Password</label>
-          <input type="password" class="form-control" id="repassword" name="repassword"  placeholder="Enter password">
-          </div>`);
+        $('#eid').val('');
       }
 
-
-
-      function changeStatus(id){
-        swal({
-          title: "Bạn thực sự muốn thay đổi quyền của người dùng?",
-        // text: "Bạn sẽ không thể khôi phục lại bản ghi này!!",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",  
-        cancelButtonText: "Không",
-        confirmButtonText: "Có",
-        // closeOnConfirm: false,
-      },
-      function(isConfirm) {
-        if (isConfirm) {
-          $.ajax({
-            type: "post",
-            url: "/api/status/users/"+id,
-            data: {
-              role:$('#role_'+id).val()
-            },
-            dataType:'json',
-            success: function(res)
-            {
-              if(!res.error) {
-                toastr.success('Thay đổi thành công!');
-
-                dataTable.ajax.reload();
-              }
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-              toastr.error(xhr.responseJSON.message);
-            }
-          });
-        } else {
-          toastr.error("Hủy bỏ thao tác!");
-        }
-      });
-      };
