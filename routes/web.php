@@ -16,14 +16,16 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 
-Route::get('/', 'ReportMarketController@index');
+Route::get('/', 'UserController@index');
+Route::get('/report/user/{auth}', 'ReportMarketController@index');
 
-Route::get('/home', 'ReportMarketController@index')->name('home');
+Route::get('/home', 'UserController@index')->name('home');
 
 Route::resource('users', 'UserController');
 Route::resource('report/market', 'ReportMarketController');
 
 Route::get('/category/{slug}', 'HomeController@category');
+Route::get('/test', 'ReportMarketController@test');
 
 // Route::resource('categories', 'CategoryController');
 

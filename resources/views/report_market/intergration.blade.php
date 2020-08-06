@@ -14,38 +14,29 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css" rel="stylesheet" type="text/css">
 
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></head>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.css">
   <link  rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
   <link rel="stylesheet" type="text/css" href="/css/intergration.css">
 </head>
-<body>
-
-<h1 class="text-center font-weight-bold" style="color: #3B170B; background:#F7FE2E; padding: 5px"
->Báo cáo thị trường</h1>
+<body id="body">
 
   <br><br>
   <button type="button" class="btn btn-primary" data-toggle="modal" href='#add-modal' onclick="clearForm()">Thêm mới</button>
 
   <br><br>
-      <table class="table table-bordered table-striped" id="users-table">
-        <thead>
-          <tr class="table-primary">
-            <th>Ngày thăm</th>
-            <th>Mã KH</th>
-            <th>Tên khách</th>
-            <th>Số Điện Thoại</th>
-            <th>Tiến trình tư vấn</th>
-            <th>Phản hồi của khách / Noted</th>
-            <th>Kế hoạch phát triển</th>
-            <th>Phân loại khách hàng</th>
-            <th>Quy mô / loại hình KD / phân khúc</th>
-            <th>Sản phẩm & dịch vụ</th>
-            <th>Thị trường xung quanh</th>
-            <th>Tác vụ</th>
-          </tr>
-        </thead>
-      </table>
+  <table class="table table-bordered table-striped" id="users-table">
+    <thead>
+      <tr class="table-primary">
+        <th>Ngày thăm</th>
+        <th>Mã KH</th>
+        <th>Tên khách</th>
+        <th>Số Điện Thoại</th>
+        <th>Tác vụ</th>
+      </tr>
+    </thead>
+  </table>
 
 
 
@@ -63,11 +54,16 @@
         <form id="add-form" action="{{asset('/report/market')}}" method="POST" >
           <!-- Modal body -->
           <div class="modal-body">
+
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Ngày vào thăm</label>
+              <input class="form-control" data-date-format="dd/mm/yyyy" id="date_work" name="date_work">
+            </div>
             <div class="form-group">
               <label for="exampleFormControlSelect1">Khách hàng</label>
               <select class="form-control selectpicker" data-live-search="true" id="customer_id" name="customer_id">
                 @foreach ($customers as $customer)
-                <option value="{{ $customer->id }}">{{ $customer->name}}-{{ $customer->phone}}-{{ $customer->address}}</option>
+                <option value="{{ $customer->id }}">{{ $customer->name_follow}}-{{ $customer->supplies_phone_1}}</option>
                 @endforeach
               </select>
             </div>
@@ -78,6 +74,10 @@
             <div class="form-group">
               <label for="name">Phản hồi của khách / Noted</label>
               <input type="text" class="form-control" id="feedback" name="feedback"  placeholder="Phản hồi của khách...">
+            </div>
+            <div class="form-group">
+              <label for="name">Phản hồi khác</label>
+              <input type="text" class="form-control" id="feedback_other" name="feedback_other"  placeholder="Phản hồi của khách...">
             </div>
             <div class="form-group">
               <label for="name">Kế hoạch phát triển</label>
@@ -130,29 +130,45 @@
   </div>
 
 
-
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="{{asset('/vendor/jquery/jquery.min.js')}}"></script>
-            <script src="{{asset('/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    $('#date_work').datepicker({
+      weekStart: 1,
+      daysOfWeekHighlighted: "6,0",
+      autoclose: true,
+      todayHighlight: true,
+    });
+  </script>
 
-            <!-- Core plugin JavaScript-->
-            <script src="{{asset('/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+  <!-- Custom scripts for all pages-->
+  <script src="{{asset('/js/sb-admin-2.min.js')}}"></script>
+  <!-- Page level plugins -->
 
-            <!-- Custom scripts for all pages-->
-            <script src="{{asset('/js/sb-admin-2.min.js')}}"></script>
-            <!-- Page level plugins -->
-            <script src="{{asset('/vendor/chart.js/Chart.min.js')}}"></script>
-
-            <!-- Page level custom scripts -->
+  <!-- Page level custom scripts -->
 
 
-            <script src="{{asset('/js/jquery.validate.min.js')}}" type="text/javascript"></script>
-            <script src="{{ asset('/js/jquery.dataTables.min.js') }}"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
-            <script src="{{ asset('/js/main/intergration.js') }}"></script>
+  
+  <script src="{{asset('/js/jquery.validate.min.js')}}" type="text/javascript"></script>
+  <script src="{{ asset('/js/jquery.dataTables.min.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
+  <script type="text/javascript">
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        'Authorization': '{{$auth}}'
+      }
+    });
+
+  </script>
+
+  
+  <script src="{{ asset('/js/main/intergration.js') }}"></script>
 
 </body>
 </html>

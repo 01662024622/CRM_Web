@@ -1,9 +1,5 @@
 
-$.ajaxSetup({
-  headers: {
-    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-  }
-});
+
 //____________________________________________________________________________________________________
 var dataTable = $('#users-table').DataTable({
   processing: true,
@@ -22,17 +18,10 @@ var dataTable = $('#users-table').DataTable({
   }
 }},
 columns: [
-{ data: 'created_at', name: 'created_at' },
+{ data: 'date_work', name: 'date_work' },
 { data: 'code', name: 'code' },
-{ data: 'name', name: 'name' },
-{ data: 'phone', name: 'phone' },
-{ data: 'advisory', name: 'advisory' },
-{ data: 'feedback', name: 'feedback' },
-{ data: 'dev_plan', name: 'dev_plan' },
-{ data: 'type', name: 'type' },
-{ data: 'scale', name: 'scale' },
-{ data: 'service', name: 'service' },
-{ data: 'type_market', name: 'type_market' },
+{ data: 'name_follow', name: 'name_follow' },
+{ data: 'supplies_phone_1', name: 'supplies_phone_1' },
 { data: 'action', name: 'action' },
 ],
 oLanguage:{
@@ -52,7 +41,6 @@ oLanguage:{
         "sLast":     " Cuối "
     }
 }
-
 });
 
 $("#add-form").submit(function(e){
@@ -61,37 +49,12 @@ $("#add-form").submit(function(e){
   rules: {
     advisory: {
       required: true,
-    },
-    feedback:{
-      required:true,
-    },
-    dev_plan:{
-      required:true,
-    },
-    service:{
-      required:true,
-    },
-    type_market:{
-      required:true,
-    },
+    }
   },
   messages: {
     advisory: {
       required: "Hãy nhập thông tin",
-    },
-    feedback:{
-      required:"Hãy nhập thông tin",
-    },
-    dev_plan:{
-      required:"Hãy nhập thông tin",
-    },
-    service:{
-      required:"Hãy nhập thông tin",
-    },
-    type_market:{
-      required:"Hãy nhập thông tin",
-    },
-    
+    }
   },
   submitHandler: function(form) {
     var formData = new FormData(form);
@@ -118,7 +81,7 @@ $("#add-form").submit(function(e){
        $("#add-modal").modal('toggle');
        dataTable.ajax.reload();
      }, error: function (xhr, ajaxOptions, thrownError) {
-      toastr.error(thrownError);
+      toastr.error(xhr.responseJSON.message);
     },       
   });
   }
@@ -137,6 +100,7 @@ $("#add-form").submit(function(e){
            $('#customer_id').val(response.customer_id);
            $('#advisory').val(response.advisory);
            $('#feedback').val(response.feedback);
+           $('#feedback_other').val(response.feedback_other);
            $('#dev_plan').val(response.dev_plan);
            $('#type').val(response.type);
            $('#scale').val(response.scale);
@@ -195,5 +159,6 @@ $("#add-form").submit(function(e){
       function clearForm(){
         $('#add-form')[0].reset(); 
         $('#eid').val('');
+        $('#date_work').datepicker("setDate", new Date());
       }
 

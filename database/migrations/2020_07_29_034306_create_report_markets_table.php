@@ -15,14 +15,17 @@ class CreateReportMarketsTable extends Migration
     {
         Schema::create('report_markets', function (Blueprint $table) {
             $table->id();
+            $table->date("date_work");
             $table->integer("customer_id");
-            $table->string("advisory");
-            $table->string("feedback");
-            $table->string("dev_plan");
+            $table->string("advisory")->nullable();
+            $table->string("feedback")->nullable();
+            $table->string("feedback_other")->nullable();
+            $table->string("dev_plan")->nullable();
             $table->string("type");
-            $table->string("scale");
-            $table->string("service");
-            $table->string("type_market");
+            $table->string("scale")->nullable();
+            $table->string("service")->nullable();
+            $table->string("type_market")->nullable();
+            $table->bigInteger("user_id");
             $table->timestamps();
         });
     }

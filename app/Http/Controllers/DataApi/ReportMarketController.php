@@ -7,12 +7,24 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\Datatables\Datatables;
 use App\ReportMarket;
+use App\User;
 use DB;
 use Carbon\Carbon;
 class ReportMarketController extends Controller
 {
-	public function anyData(){
-		$data = ReportMarket::select('report_markets.*','customers.name','customers.phone','customers.code','customers.address')->join('customers', 'report_markets.customer_id', '=', 'customers.id');
+	public function anyData(Request $request){
+		$user=null;
+		if ($request->headers->has('Authorization')) {
+			$header= $request->header('Authorization');
+			$user = User::where('authentication',$header)->first();
+		}
+		else return response()
+			->json([
+				'code'      =>  400,
+				'message'   =>  'Quyền không hợp lệ!'
+			], 400);
+
+		$data = ReportMarket::select('report_markets.*','customers.name_follow','customers.supplies_phone_1','customers.code','customers.address')->join('customers', 'report_markets.customer_id', '=', 'customers.id')->where('report_markets.user_id',$user->id);
 		
 		// $products->user;
 		return Datatables::of($data)
@@ -23,8 +35,8 @@ class ReportMarketController extends Controller
 			';
 
 		})
-		->editColumn('created_at', function ($dt) {
-			return Carbon::parse($dt['created_at'])->format('d/m/Y');
+		->editColumn('date_work', function ($dt) {
+			return Carbon::parse($dt['date_work'])->format('d/m/Y');
 		})
 		->setRowId('data-{{$id}}')
 		->rawColumns(['action'])
