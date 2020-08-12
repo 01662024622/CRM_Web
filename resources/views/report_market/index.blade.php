@@ -1,119 +1,141 @@
 @extends('layouts.app')
 @section('css')
-<link rel="stylesheet" href="https://rawgit.com/adrotec/knockout-file-bindings/master/knockout-file-bindings.css">
-
-<style type="text/css" media="screen">
-  #name-error{
-    color: #5a5c69;
-    font-size: 0.8rem;
-    position: relative;
-    line-height: 1;
-    color: red
-  }
-  .error{
-    color: #5a5c69;
-    font-size: 1rem;
-    position: relative;
-    line-height: 1;
-    color: red;
-    width: 100%;
-  }
-  .image-product{
-    width: 200px;
-    height: auto;
-  }
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-    box-sizing: border-box;
-    display: inline-block;
-    min-width: 1.5em;
-    padding: 0.5em 1em;
-    margin-left: 2px;
-    text-align: center;
-    text-decoration: none !important;
-    cursor: pointer;
-    *cursor: hand;
-    color: #333 !important;
-    border: 1px solid transparent;
-    border-radius: 2px;
-}
-</style>
+  <link rel="stylesheet" type="text/css" href="/css/intergration.css">
 @endsection
 @section('content')
 
-<br><br>
-<button type="button" class="btn btn-primary" data-toggle="modal" href='#add-modal' onclick="clearForm()">Thêm mới</button>
+ <br><br>
+  <button type="button" class="btn btn-primary" data-toggle="modal" href='#add-modal' onclick="clearForm()">Thêm mới</button>
 
-<br><br>
-<table class="table table-bordered" id="users-table">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Tên Người Dùng</th>
-      <th>Email</th>
-      <th>Số Điện Thoại</th>
-      <th>Quyền Hạn</th>
-      <th>Hành Động</th>
-    </tr>
-  </thead>
-</table>
+  <br><br>
+  <table class="table table-bordered table-striped" id="users-table">
+    <thead>
+      <tr class="table-primary">
+        <th>Ngày thăm</th>
+        <th>Tên khách</th>
+        <th>TT tư vấn</th>
+        <th>Phản hồi</th>
+        <th>KHPT</th>
+        <th>Phân loại</th>
+        <th>Quy mô</th>
+        <th>SP&DV</th>
+        <th>Xung quanh</th>
+        <th>Tác vụ</th>
+      </tr>
+    </thead>
+  </table>
 
 
-<!-- The Modal -->
-<div class="modal" id="add-modal">
-  <div class="modal-dialog" style="max-width: 700px;">
-    <div class="modal-content">
 
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Thông Tin Người Dùng</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+  <!-- The Modal -->
+  <div class="modal" id="add-modal">
+    <div class="modal-dialog" style="max-width: 700px;">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Báo cáo thị trường</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <form id="add-form" action="{{asset('/report/market')}}" method="POST" >
+          <!-- Modal body -->
+          <div class="modal-body">
+
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Ngày vào thăm</label>
+              <input class="form-control" data-date-format="dd/mm/yyyy" id="date_work" name="date_work">
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Khách hàng</label>
+              <select class="form-control selectpicker" data-live-search="true" id="customer_id" name="customer_id">
+                @foreach ($customers as $customer)
+                <option value="{{ $customer->id }}">{{ $customer->name_follow}}-{{ $customer->supplies_phone_1}}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="name">Tiến trình tư vấn</label>
+              <input type="text" class="form-control" id="advisory" name="advisory"  placeholder="Tiến trình tư vấn...">
+            </div>
+            <div class="form-group">
+              <label for="name">Phản hồi của khách / Noted</label>
+              <input type="text" class="form-control" id="feedback" name="feedback"  placeholder="Phản hồi của khách...">
+            </div>
+            <div class="form-group">
+              <label for="name">Phản hồi khác</label>
+              <input type="text" class="form-control" id="feedback_other" name="feedback_other"  placeholder="Phản hồi của khách...">
+            </div>
+            <div class="form-group">
+              <label for="name">Kế hoạch phát triển</label>
+              <input type="text" class="form-control" id="dev_plan" name="dev_plan"  placeholder="Kế hoạch phát triển...">
+            </div>
+            <div class="form-group">
+              <label for="name">Phân loại khách hàng</label>
+              <select class="form-control" id="type" name="type">
+                <option value="Khác">Khác</option>
+                <option value="Bỏ">Bỏ</option>
+                <option value="Bình Thường">Bình Thường</option>
+                <option value="Đang Lấy">Đang Lấy</option>
+                <option value="Tiềm Năng">Tiềm Năng</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="name">Quy mô / loại hình KD / phân khúc</label>
+              <select class="form-control" id="scale" name="scale">
+                <option value="Gara vừa">Gara vừa</option>
+                <option value="Cửa hàng phụ tùng">Cửa hàng phụ tùng</option>
+                <option value="Đại lý lớn">Đại lý lớn</option>
+                <option value="Trung cấp">Trung cấp</option>
+                <option value="Cao cấp">Cao cấp</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="name">Sản phẩm & dịch vụ</label>
+              <input type="text" class="form-control" id="service" name="service"  placeholder="Sản phẩm & dịch vụ...">
+            </div>
+
+            <div class="form-group">
+              <label for="name">Thị trường xung quanh (Trục đường, quanh 100m)</label>
+              <input type="text" class="form-control" id="type_market" name="type_market"  placeholder="Thị trường xung quanh...">
+            </div>
+            <div class="form-group">
+              <label for="name">Ảnh Trước</label>
+              <label class="labelimage labelimage_1"><i class="icon-download-alt"></i> Đã có</label>
+              <input type="file" class="form-control" id="image_1" name="image_1"  data-buttonText="Hello there, pick your files" accept="image/png, image/jpeg, image/jpg">
+            </div>
+            <div class="form-group">
+              <label for="name">Ảnh khu trưng bày</label>
+              <label class="labelimage labelimage_2"><i class="icon-download-alt"></i> Đã có</label>
+              <input type="file" class="form-control" id="image_2" name="image_2"  data-buttonText="Hello there, pick your files" accept="image/png, image/jpeg , image/jpg">
+            </div>
+            <div class="form-group">
+              <label for="name">Ảnh Khác</label>
+              <label class="labelimage labelimage_3"><i class="icon-download-alt"></i> Đã có</label>
+              <input type="file" class="form-control" id="image_3" name="image_3"  data-buttonText="Hello there, pick your files" accept="image/png, image/jpeg, image/jpg">
+            </div>
+
+            <input type="hidden" name="id" id="eid">
+
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+            <button type="submit" class="btn btn-primary">Lưu</button>
+          </div>
+        </form>
       </div>
-
-      <form id="add-form" action="{{asset('/users')}}" method="POST" >
-        <!-- Modal body -->
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="name">Tên Người Dùng</label>
-            <input type="text" class="form-control" id="name" name="name"  placeholder="Nhập Họ và Tên...">
-          </div>
-          <div class="form-group">
-            <label for="name">Email</label>
-            <input type="email" class="form-control" id="email" name="email"  placeholder="Nhập Email...">
-          </div>
-          <div class="form-group">
-            <label for="name">SĐT</label>
-            <input type="tel" class="form-control" id="phone" name="phone"  placeholder="Nhập Số Điện Thoại...">
-          </div>
-          <div class="form-group tag_pass">
-            <label for="name">Mật Khẩu</label>
-            <input type="password" class="form-control" id="password" name="password"  placeholder="Nhập Mật Khẩu...">
-          </div>
-          <div class="form-group tag_pass">
-            <label for="name">Nhập Lại Mật Khẩu</label>
-            <input type="password" class="form-control" id="repassword" name="repassword"  placeholder="Xác Nhận Lại Mật Khẩu...">
-          </div>
-          <input type="hidden" name="id" id="eid">
-
-       </div>
-
-       <!-- Modal footer -->
-       <div class="modal-footer">
-        
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
-        <button type="submit" class="btn btn-primary">Lưu</button>
-      </div>
-    </form>
+    </div>
   </div>
-</div>
-</div>
 
 
 
 @endsection
 
 @section('js')
-<script src="{{ asset('js/main/users.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
-<script src="https://rawgit.com/adrotec/knockout-file-bindings/master/knockout-file-bindings.js"></script>
+<script src="{{ asset('js/main/report_market.js') }}"></script>
 
 @endsection

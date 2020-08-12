@@ -25,6 +25,9 @@ class CreateReportMarketsTable extends Migration
             $table->string("scale")->nullable();
             $table->string("service")->nullable();
             $table->string("type_market")->nullable();
+            $table->string("image_1")->nullable();
+            $table->string("image_2")->nullable();
+            $table->string("image_3")->nullable();
             $table->bigInteger("user_id");
             $table->timestamps();
         });

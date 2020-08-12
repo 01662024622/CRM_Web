@@ -23,6 +23,41 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.css">
   <link  rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
+  <style type="text/css">
+      #name-error{
+    color: #5a5c69;
+    font-size: 0.8rem;
+    position: relative;
+    line-height: 1;
+    color: red
+  }
+  .error{
+    color: #5a5c69;
+    font-size: 1rem;
+    position: relative;
+    line-height: 1;
+    color: red;
+    width: 100%;
+  }
+  .image-product{
+    width: 200px;
+    height: auto;
+  }
+  .dataTables_wrapper .dataTables_paginate .paginate_button {
+    box-sizing: border-box;
+    display: inline-block;
+    min-width: 1.5em;
+    padding: 0.5em 1em;
+    margin-left: 2px;
+    text-align: center;
+    text-decoration: none !important;
+    cursor: pointer;
+    *cursor: hand;
+    color: #333 !important;
+    border: 1px solid transparent;
+    border-radius: 2px;
+}
+  </style>
   @yield('css')
 
 </head>
@@ -75,10 +110,18 @@
                   </a>
                 @endif --}}
 
-                @if(Auth::user()->role=="admin"||Auth::user()->role=="manage")
+                @if(Auth::user()->role=="admin")
                   <a class="collapse-item" href="/users">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Người Dùng</span>
+                  </a>
+                  <a class="collapse-item" href="/apartments">
+                    <i class="fa fa-building"></i>
+                    <span>Phòng Ban</span>
+                  </a>
+                  <a class="collapse-item" href="/report/market">
+                    <i class="fa fa-book"></i>
+                    <span>Báo Cáo Thị Trường</span>
                   </a>
                 @endif
                 </div>
@@ -340,8 +383,11 @@
               </div>
             </div>
             <!-- Bootstrap core JavaScript-->
-            <script src="{{asset('/vendor/jquery/jquery.min.js')}}"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
             <script src="{{asset('/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
 
             <!-- Core plugin JavaScript-->
             <script src="{{asset('/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
@@ -358,6 +404,7 @@
             <script src="{{ asset('/js/jquery.dataTables.min.js') }}"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.js"></script>
+            
 
             @yield('js')
           </body>

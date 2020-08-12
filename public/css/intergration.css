@@ -52,3 +52,9 @@ label{
 #date{
     width: 280px;
 }
+
+
+.labelimage {
+  color: red;
+  display: none;
+}

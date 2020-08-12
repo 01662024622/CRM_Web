@@ -23,6 +23,7 @@
 <body id="body">
 
   <br><br>
+  <h3>{{$name}}</h3>
   <button type="button" class="btn btn-primary" data-toggle="modal" href='#add-modal' onclick="clearForm()">Thêm mới</button>
 
   <br><br>
@@ -30,9 +31,10 @@
     <thead>
       <tr class="table-primary">
         <th>Ngày thăm</th>
-        <th>Mã KH</th>
         <th>Tên khách</th>
-        <th>Số Điện Thoại</th>
+        <th>TT tư vấn</th>
+        <th>Phản hồi</th>
+        <th>KHPT</th>
         <th>Tác vụ</th>
       </tr>
     </thead>
@@ -113,6 +115,21 @@
               <label for="name">Thị trường xung quanh (Trục đường, quanh 100m)</label>
               <input type="text" class="form-control" id="type_market" name="type_market"  placeholder="Thị trường xung quanh...">
             </div>
+            <div class="form-group">
+              <label for="name">Ảnh Trước</label>
+              <label class="labelimage labelimage_1"><i class="icon-download-alt"></i> Đã có</label>
+              <input type="file" class="form-control" id="image_1" name="image_1"  data-buttonText="Hello there, pick your files" accept="image/png, image/jpeg, image/jpg">
+            </div>
+            <div class="form-group">
+              <label for="name">Ảnh khu trưng bày</label>
+              <label class="labelimage labelimage_2"><i class="icon-download-alt"></i> Đã có</label>
+              <input type="file" class="form-control" id="image_2" name="image_2"  data-buttonText="Hello there, pick your files" accept="image/png, image/jpeg , image/jpg">
+            </div>
+            <div class="form-group">
+              <label for="name">Ảnh Khác</label>
+              <label class="labelimage labelimage_3"><i class="icon-download-alt"></i> Đã có</label>
+              <input type="file" class="form-control" id="image_3" name="image_3"  data-buttonText="Hello there, pick your files" accept="image/png, image/jpeg, image/jpg">
+            </div>
 
             <input type="hidden" name="id" id="eid">
 
@@ -133,6 +150,7 @@
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script type="text/javascript">

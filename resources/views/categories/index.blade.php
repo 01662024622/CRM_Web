@@ -2,27 +2,7 @@
 @section('css')
 <link rel="stylesheet" href="https://rawgit.com/adrotec/knockout-file-bindings/master/knockout-file-bindings.css">
 
-<style type="text/css" media="screen">
-  #name-error{
-    color: #5a5c69;
-    font-size: 0.8rem;
-    position: relative;
-    line-height: 1;
-    color: red
-  }
-  .error{
-    color: #5a5c69;
-    font-size: 1rem;
-    position: relative;
-    line-height: 1;
-    color: red;
-    width: 100%;
-  }
-  .image-product{
-    width: 200px;
-    height: auto;
-  }
-</style>
+
 @endsection
 @section('content')
 

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\Datatables\Datatables;
 use App\User;
 use DB;
+use Carbon\Carbon;
 
 class UserApiController extends Controller
 {
@@ -16,7 +17,7 @@ class UserApiController extends Controller
 	function __construct() {
 		$this->middleware('admin');
 	}
-	public function anyData(){
+	public function anyData(Request $request){
 		$data = User::select('users.*');
 		$data=$data->where('role','<>','admin')->get();
 		
@@ -24,6 +25,7 @@ class UserApiController extends Controller
 		return Datatables::of($data)
 		->addColumn('action', function ($dt) {
 			return'
+			<button type="button" class="btn btn-xs btn-primary" onclick="getAuthen(`http://crm.htauto.vn/report/user/'.$dt['authentication'].'`)" href="#add-modal"><i class="fa fa-eye" aria-hidden="true"></i></button>
 			<button type="button" class="btn btn-xs btn-warning"data-toggle="modal" onclick="getInfo('.$dt['id'].')" href="#add-modal"><i class="fas fa-pencil-alt" aria-hidden="true"></i></button>
 			<button type="button" class="btn btn-xs btn-danger" onclick="alDelete('.$dt['id'].')"><i class="fa fa-trash" aria-hidden="true"></i></button>
 			';
@@ -44,8 +46,11 @@ class UserApiController extends Controller
 			return $html;
 
 		})
+		->editColumn('birth_day', function ($dt) {
+			return Carbon::parse($dt['birth_day'])->format('d/m/Y');
+		})
 		->setRowId('data-{{$id}}')
-		->rawColumns(['action','status','role'])
+		->rawColumns(['action','birth_day','role'])
 		->make(true);
 	}
 

@@ -22,7 +22,7 @@ class CreateCustomersTable extends Migration
             $table->string('address')->nullable();
             $table->integer('main_group_id')->nullable();
             $table->integer('categorize_customer_id')->nullable();
-            $table->integer('classify_customer_id');
+            $table->integer('classify_customer_id')->nullable();
             $table->string('supplies')->nullable();
             $table->string('supplies_phone_1')->nullable();
             $table->string('supplies_phone_2')->nullable();
@@ -31,7 +31,7 @@ class CreateCustomersTable extends Migration
             $table->string('accountant_phone')->nullable();
             $table->string('boss_name')->nullable();
             $table->string('boss_phone')->nullable();
-            $table->integer('user_code')->nullable();
+            $table->string('user_code')->nullable();
             $table->string('location')->nullable();
             $table->timestamps();
         });

@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Category;
+use Illuminate\Support\Facades\Schema;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -23,11 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('*', function ($view)
-        {
-            $categories = Category::where('status',1)->get();
-
-            $view->with('categories', $categories);
-        });
+        Schema::defaultStringLength(191); 
     }
 }

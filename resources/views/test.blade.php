@@ -1,35 +1,54 @@
 <!DOCTYPE html>
-<!-- saved from url=(0033)https://makitweb.com/demo/webcam/ -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="icon" href="https://i2.wp.com/makitweb.com/wp-content/uploads/2016/02/cropped-sitelogo.png?fit=32%2C32&amp;ssl=1" sizes="32x32">
-<link rel="icon" href="https://i2.wp.com/makitweb.com/wp-content/uploads/2016/02/cropped-sitelogo.png?fit=192%2C192&amp;ssl=1" sizes="192x192">
-<link rel="apple-touch-icon-precomposed" href="https://i2.wp.com/makitweb.com/wp-content/uploads/2016/02/cropped-sitelogo.png?fit=180%2C180&amp;ssl=1">
-<meta name="msapplication-TileImage" content="https://i2.wp.com/makitweb.com/wp-content/uploads/2016/02/cropped-sitelogo.png?fit=270%2C270&amp;ssl=1">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How to capture picture from webcam with Webcam.js</title>
-
+<html>
+<head>
+    <title>laravel 7 file upload example - ItSolutionStuff.com.com</title>
+    <link rel="stylesheet" href="http://getbootstrap.com/dist/css/bootstrap.css">
 </head>
-
+  
 <body>
-    <!-- CSS -->
-    <style>
-    #my_camera{
-        width: 320px;
-        height: 240px;
-        border: 1px solid black;
-    }
-  </style>
-
-  <div id="my_camera" style="width: 320px; height: 240px;"><div></div><video autoplay="autoplay" style="width: 320px; height: 240px;"></video></div>
-  <input type="file" value="Take Snapshot">
-  
-    <div id="results"></div>
-  
-  <!-- Webcam.min.js -->
+<div class="container">
    
-  <!-- Configure a few settings and attach camera -->
+    <div class="panel panel-primary">
+      <div class="panel-heading"><h2>laravel 7 file upload example - ItSolutionStuff.com.com</h2></div>
+      <div class="panel-body">
+   
+        @if ($message = Session::get('success'))
+        <div class="alert alert-success alert-block">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>{{ $message }}</strong>
+        </div>
+        <img src="uploads/{{ Session::get('file') }}">
+        @endif
   
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <strong>Whoops!</strong> There were some problems with your input.
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
   
-
-
-</body></html>
+        <form action="/put" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="row">
+  
+                <div class="col-md-6">
+                    <input type="file" name="file" class="form-control">
+                </div>
+   
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-success">Upload</button>
+                </div>
+   
+            </div>
+        </form>
+  
+      </div>
+    </div>
+</div>
+</body>
+  
+</html>

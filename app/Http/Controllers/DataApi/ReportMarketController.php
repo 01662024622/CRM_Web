@@ -10,21 +10,37 @@ use App\ReportMarket;
 use App\User;
 use DB;
 use Carbon\Carbon;
+
 class ReportMarketController extends Controller
 {
 	public function anyData(Request $request){
-		$user=null;
-		if ($request->headers->has('Authorization')) {
-			$header= $request->header('Authorization');
-			$user = User::where('authentication',$header)->first();
+		// $user=null;
+		if (!Auth::check()) {
+			if ($request->headers->has('Authorization')) {
+				$header= $request->header('Authorization');
+				$user = User::where('authentication',$header)->first();
+				if (is_null($user)) {
+					return response()
+					->json([
+						'code'      =>  400,
+						'message'   =>  'Quyền không hợp lệ!'
+					], 400);
+				}
+			}
+			else return response()
+				->json([
+					'code'      =>  400,
+					'message'   =>  'Quyền không hợp lệ!'
+				], 400);
+		}else{
+			$user=Auth::user();
 		}
-		else return response()
-			->json([
-				'code'      =>  400,
-				'message'   =>  'Quyền không hợp lệ!'
-			], 400);
+		
 
-		$data = ReportMarket::select('report_markets.*','customers.name_follow','customers.supplies_phone_1','customers.code','customers.address')->join('customers', 'report_markets.customer_id', '=', 'customers.id')->where('report_markets.user_id',$user->id);
+		$data = ReportMarket::select('report_markets.*','customers.name_follow','customers.supplies_phone_1','customers.code','customers.address')->join('customers', 'report_markets.customer_id', '=', 'customers.id');
+		if ($user->role!='admin') {
+			$data=$data->where('report_markets.user_id',$user->id);
+		}
 		
 		// $products->user;
 		return Datatables::of($data)

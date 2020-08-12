@@ -19,9 +19,10 @@ var dataTable = $('#users-table').DataTable({
 }},
 columns: [
 { data: 'date_work', name: 'date_work' },
-{ data: 'code', name: 'code' },
 { data: 'name_follow', name: 'name_follow' },
-{ data: 'supplies_phone_1', name: 'supplies_phone_1' },
+{ data: 'advisory', name: 'advisory' },
+{ data: 'feedback', name: 'feedback' },
+{ data: 'dev_plan', name: 'dev_plan' },
 { data: 'action', name: 'action' },
 ],
 oLanguage:{
@@ -106,6 +107,15 @@ $("#add-form").submit(function(e){
            $('#scale').val(response.scale);
            $('#service').val(response.service);
            $('#type_market').val(response.type_market);
+           if (response.image_1!=""&&response.image_1!=null) {
+            $('.labelimage_1').css("display","block");
+           }
+           if (response.image_2!=""&&response.image_2!=null) {
+            $('.labelimage_2').css("display","block");
+           }
+           if (response.image_3!=""&&response.image_3!=null) {
+            $('.labelimage_3').css("display","block");
+           }
            $('#eid').val(response.id);
            $('.tag_pass').remove();
          },
@@ -162,3 +172,6 @@ $("#add-form").submit(function(e){
         $('#date_work').datepicker("setDate", new Date());
       }
 
+  $("#labelfile").click(function() {
+    $("#image_1").trigger('click');
+  });
