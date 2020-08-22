@@ -108,13 +108,13 @@ $("#add-form").submit(function(e){
            $('#service').val(response.service);
            $('#type_market').val(response.type_market);
            if (response.image_1!=""&&response.image_1!=null) {
-            $('.labelimage_1').css("display","block");
+            $('.labelimage_1').css("display","inline-block");
            }
            if (response.image_2!=""&&response.image_2!=null) {
-            $('.labelimage_2').css("display","block");
+            $('.labelimage_2').css("display","inline-block");
            }
            if (response.image_3!=""&&response.image_3!=null) {
-            $('.labelimage_3').css("display","block");
+            $('.labelimage_3').css("display","inline-block");
            }
            $('#eid').val(response.id);
            $('.tag_pass').remove();

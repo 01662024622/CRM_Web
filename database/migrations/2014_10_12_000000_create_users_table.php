@@ -16,9 +16,10 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('tagname');
+            $table->string('avata')->default("/user.png");
+            $table->string('tagname')->unique();
             $table->string('position');
-            $table->integer('apartment_id')->default(0);
+            $table->integer('apartment_id');
             $table->string('location')->nullable();
             $table->string('skype')->nullable();
             $table->string('email_htauto')->nullable();
@@ -28,8 +29,9 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('authentication')->nullable();
+            $table->string('authentication')->unique();
             $table->string('role')->default('blocker');
+            $table->integer('status')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

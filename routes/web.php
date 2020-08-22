@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use App\Jobs\PutFile;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,8 +15,9 @@ use App\Jobs\PutFile;
 Auth::routes(['register' => false]);
 
 
-Route::get('/', 'UserController@index');
-Route::get('/report/user/{auth}', 'ReportMarketController@intergration');
+Route::get('/', 'CustomerController@index');
+Route::get('/report/user/{auth}', 'CustomerController@intergration');
+Route::get('/review/user/{auth}', 'CustomerController@review360');
 
 Route::get('/home', 'UserController@index')->name('home');
 
@@ -31,16 +30,7 @@ Route::get('/category/{slug}', 'HomeController@category');
 Route::get('/test', 'ReportMarketController@test');
 
 // Route::resource('categories', 'CategoryController');
-Route::post('/put', function(Request $request) {
-	if ($request->hasFile('file')) {
-		$name = time()."-".$request->file->getClientOriginalExtension();
-		$request->file->storeAs('/', $name, 'public');
-        
-        PutFile::dispatch($name);
-	return "OK";
-	}
-	return $request;
-});
+
 
 
 // Get data Table group

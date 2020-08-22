@@ -67,23 +67,12 @@ $("#add-form").submit(function(e){
       required: true,
       minlength: 5
     },
-    password:{
-      required:true,
-    },
-    confirmpassword: {
-      equalTo: "#password"
-    }
   },
   messages: {
     name: {
       required: "Hãy nhập họ và tên của bạn",
       minlength: "Họ và tên ít nhất phải có 5 kí tự"
     },
-    password:{
-      required:"Hãy nhập password",
-      minlength:"Mật khẩu ít nhất phải có 8 kí tự",
-    },
-    confirmpassword: "Mật khẩu xác nhận chưa giống nhau",
     
   },
   submitHandler: function(form) {
@@ -130,14 +119,13 @@ $("#add-form").submit(function(e){
            $('#name').val(response.name);
            $('#position').val(response.position);
            $('#apartment_id').val(response.apartment_id);
-           $('#position').val(response.position);
+           $('#location').val(response.location);
            $('#skype').val(response.skype);
            $('#email_htauto').val(response.email_htauto);
            $('#phone').val(response.phone);
            $('#phone_htauto').val(response.phone_htauto);
            $('#birth_day').val(response.birth_day);
            $('#eid').val(response.id);
-           $('.tag_pass').remove();
          },
          error: function (xhr, ajaxOptions, thrownError) {
           toastr.error(thrownError);
@@ -188,18 +176,7 @@ $("#add-form").submit(function(e){
 
       function clearForm(){
         $('#add-form')[0].reset(); 
-
-        $('.tag_pass').remove();
         $('#eid').val(''); 
-        $('.modal-body').append(`<div class="form-group tag_pass">
-          <label for="name">Password</label>
-          <input type="password" class="form-control" id="password" name="password"  placeholder="Enter password">
-          </div>
-          <div class="form-group tag_pass">
-          <label for="name">Re-Password</label>
-          <input type="password" class="form-control" id="repassword" name="repassword"  placeholder="Enter password">
-          </div>`);
-
         $('#birth_day').datepicker("setDate", new Date());
       }
 

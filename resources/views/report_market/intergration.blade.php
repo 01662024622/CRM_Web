@@ -9,14 +9,16 @@
   <meta name="author" content="">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>HTAuto</title>
-  <link rel="shortcut icon" href="http://www.htauto.com.vn/favicon.ico">
+  <link rel="shortcut icon" href="/crop-logo.png">
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css" rel="stylesheet" type="text/css">
 
   <!-- Bootstrap CSS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></head>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.css">
+
+<link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.css">
   <link  rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
   <link rel="stylesheet" type="text/css" href="/css/intergration.css">
 </head>
@@ -169,7 +171,7 @@
   <!-- Page level custom scripts -->
 
 
-  
+
   <script src="{{asset('/js/jquery.validate.min.js')}}" type="text/javascript"></script>
   <script src="{{ asset('/js/jquery.dataTables.min.js') }}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
@@ -185,7 +187,8 @@
 
   </script>
 
-  
+
+  <script src="{{asset('vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
   <script src="{{ asset('/js/main/intergration.js') }}"></script>
 
 </body>

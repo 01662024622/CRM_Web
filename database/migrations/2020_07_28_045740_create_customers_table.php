@@ -15,7 +15,7 @@ class CreateCustomersTable extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->string('code');
+            $table->string('code')->unique();
             $table->string('name_follow');
             $table->string('name_main')->nullable();
             $table->string('name_business')->nullable();
@@ -33,6 +33,7 @@ class CreateCustomersTable extends Migration
             $table->string('boss_phone')->nullable();
             $table->string('user_code')->nullable();
             $table->string('location')->nullable();
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

@@ -15,7 +15,7 @@ class CreateClassifyCustomersTable extends Migration
     {
         Schema::create('classify_customers', function (Blueprint $table) {
             $table->id();            
-            $table->string('code');
+            $table->string('code')->unique();
             $table->string('description')->nullable();
             $table->integer('status')->default(0);
             $table->string('user_id');

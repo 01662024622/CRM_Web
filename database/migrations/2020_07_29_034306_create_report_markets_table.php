@@ -29,6 +29,7 @@ class CreateReportMarketsTable extends Migration
             $table->string("image_2")->nullable();
             $table->string("image_3")->nullable();
             $table->bigInteger("user_id");
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

@@ -2,41 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Apartment;
-use Illuminate\Support\Str;
+use App\Http\Controllers\Base\ResouceController;
+use App\Services\ApartmentService;
+use App\User;
+use App\Services\ApartmentServiceImpl;
+use App\Http\Requests\StoreApartment;
+use Illuminate\Support\Facades\View;
 
-class ApartmentController extends Controller
+class ApartmentController extends ResouceController
 {
-    function __construct() {
-		$this->middleware('admin');
-	}
-	public function index(){
-		return view('apartments.index');
-	}
+    function __construct(ApartmentService $apartment)
+    {
+        $this->middleware('admin');
+        parent::__construct($apartment, array('active' => 'apartments', 'group' => 'manager'));
+        View::share('users',User::where('status',0)->where('role','<>','admin')->get());
+    }
 
-
-	public function show($id){
-		$data=Apartment::find($id);
-        // $categories=Category::orderBy('id','DESC')->get();
-		return response()->json($data);
-	}
-	public function destroy($id){
-        // Product::find($id);
-
-		$data=Apartment::find($id)->delete();
-		return response()->json($data);
-	}
-
-	public function store(Request $request) {
-		$data=$request->only(['name', 'code','description']);
-		// check has update or store
-		if ($request->has('id')) {
-			$respon=Apartment::find($request->id)->update($data);
-			return $respon;
-		}
-		$respon=Apartment::create($data);
-		return $respon;
-
-	}
+    public function store(StoreApartment $request)
+    {
+        $data = $request->all();
+        if (array_key_exists("status", $data)) {
+            return response()
+                ->json([
+                    'code' => 400,
+                    'message' => 'Quyền không hợp lệ!'
+                ], 400);
+        }
+        return parent::storeArr($data);
+    }
 }

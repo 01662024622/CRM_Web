@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Base\ResouceController;
+use App\Services\ReportMarketService;
 use Illuminate\Http\Request;
 
 use App\ReportMarket;
@@ -9,106 +11,51 @@ use App\Customer;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
+use App\Http\Requests\StoreReportMarket;
 
-class ReportMarketController extends Controller
+
+class ReportMarketController extends ResouceController
 {
+    function __construct(ReportMarketService $reportMarketService) {
+        $this->middleware('auth.api');
+        parent::__construct($reportMarketService, array('active' => 'report_market', 'group' => 'manager'));
+        View::share('customers', Customer::all());
+    }
+    public function intergration($auth){
+        //check Authorization header
+        $user = User::where('authentication',"=",$auth)->first();
+        return view('report_market.intergration',['auth'=>$auth,'name'=>$user['name']]);
+    }
 
-	public function intergration($auth){
-		//check Authorization header
-		$user = User::where('authentication',$auth)->first();
-		if (is_null($user)) {
-			return response()
-			->json([
-				'code'      =>  400,
-				'message'   =>  'Quyền không hợp lệ!'
-			], 400);
-		}
-		$customers = Customer::all();
-		return view('report_market.intergration',['customers'=>$customers,'auth'=>$auth,'name'=>$user['name']]);
-	}
+
 	public function index(){
 		if (!Auth::check()) {
 			return redirect('login');
 		}elseif (Auth::user()->role!="admin") {
 			return redirect('login');
 		}
-
-		$customers = Customer::all();
-		return view('report_market.index',['customers'=>$customers]);
+//        return view('report_market.index');
+		return parent::index();
 	}
 
-	public function show($id){
-		if (!Auth::check()) {
-			if ($request->headers->has('Authorization')) {
-				$header= $request->header('Authorization');
-				$user = User::where('authentication',$header)->first();
-				if (is_null($user)) {
-					return response()
-					->json([
-						'code'      =>  400,
-						'message'   =>  'Quyền không hợp lệ!'
-					], 400);
-				}
-			}
-			else return response()
-				->json([
-					'code'      =>  400,
-					'message'   =>  'Quyền không hợp lệ!'
-				], 400);
-		}
-		$data=ReportMarket::find($id);
-		$data['date_work'] = Carbon::parse($data['date_work'])->format('d/m/Y');
-		return response()->json($data);
-	}
-	public function destroy($id){
-		if (!Auth::check()) {
-			if ($request->headers->has('Authorization')) {
-				$header= $request->header('Authorization');
-				$user = User::where('authentication',$header)->first();
-				if (is_null($user)) {
-					return response()
-					->json([
-						'code'      =>  400,
-						'message'   =>  'Quyền không hợp lệ!'
-					], 400);
-				}
-			}
-			else return response()
-				->json([
-					'code'      =>  400,
-					'message'   =>  'Quyền không hợp lệ!'
-				], 400);
-		}
-		$data=ReportMarket::find($id)->delete();
-		return response()->json($data);
-	}
 
-	public function store(Request $request) {
+	public function store(StoreReportMarket $request) {
 		$data=$request->all();
-		//check Authorization header
-		if (Auth::check()) {
-			$data['user_id']=Auth::id();
-		}else{
-			if ($request->headers->has('Authorization')) {
-				$header= $request->header('Authorization');
-				$user = User::where('authentication',$header)->first();
-				if (is_null($user)) {
-					return response()
-					->json([
-						'code'      =>  400,
-						'message'   =>  'Quyền không hợp lệ!'
-					], 400);
-				}
-				$data['user_id']=$user->id;
-			}
-			else return response()
-				->json([
-					'code'      =>  400,
-					'message'   =>  'Quyền không hợp lệ!'
-				], 400);
-		}
+        if (array_key_exists("status", $data)) {
+            return response()
+                ->json([
+                    'code' => 400,
+                    'message' => 'Quyền không hợp lệ!'
+                ], 400);
+        }
+		if (Auth::check()){
+		    $data["user_id"]= Auth::id();
+        }else{
+		    $user = User::where('authentication',$request->header('Authorization'))->first();
+		    $data["user_id"]=$user->id;
+        }
 		// check image and put job to driver
-		$iamgeList;
 		if ($request->hasFile('image_1')) {
 			$name = time()."-1-".$data['user_id']."-".$request->image_1->getClientOriginalExtension();
 			$request->image_1->storeAs('/', $name, 'google');
@@ -127,15 +74,7 @@ class ReportMarketController extends Controller
 
 		// format date
 		$data['date_work']=Carbon::createFromFormat('d/m/Y', $data['date_work'])->format('Y/m/d');
-
-		
-		// check has update or store
-		if ($request->has('id')) {
-			$respon=ReportMarket::find($request->id)->update($data);
-			return $respon;
-		}
-		$respon=ReportMarket::create($data);
-		return $respon;
+        return parent::storeArr($data);
 	}
 
 }

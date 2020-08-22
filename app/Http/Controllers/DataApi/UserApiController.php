@@ -18,9 +18,9 @@ class UserApiController extends Controller
 		$this->middleware('admin');
 	}
 	public function anyData(Request $request){
-		$data = User::select('users.*');
+		$data = User::select('users.*')->where('status',0);
 		$data=$data->where('role','<>','admin')->get();
-		
+
 		// $products->user;
 		return Datatables::of($data)
 		->addColumn('action', function ($dt) {

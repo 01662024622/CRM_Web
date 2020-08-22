@@ -13,6 +13,7 @@ use Carbon\Carbon;
 
 class ReportMarketController extends Controller
 {
+
 	public function anyData(Request $request){
 		// $user=null;
 		if (!Auth::check()) {
@@ -35,13 +36,14 @@ class ReportMarketController extends Controller
 		}else{
 			$user=Auth::user();
 		}
-		
 
-		$data = ReportMarket::select('report_markets.*','customers.name_follow','customers.supplies_phone_1','customers.code','customers.address')->join('customers', 'report_markets.customer_id', '=', 'customers.id');
+
+		$data = ReportMarket::select('report_markets.*','customers.name_follow','customers.supplies_phone_1','customers.code','customers.address')
+            ->join('customers', 'report_markets.customer_id', '=', 'customers.id')->where('report_markets.status',0);
 		if ($user->role!='admin') {
 			$data=$data->where('report_markets.user_id',$user->id);
 		}
-		
+
 		// $products->user;
 		return Datatables::of($data)
 		->addColumn('action', function ($dt) {

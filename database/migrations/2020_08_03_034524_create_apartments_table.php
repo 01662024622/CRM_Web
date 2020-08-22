@@ -14,9 +14,10 @@ class CreateApartmentsTable extends Migration
     public function up()
     {
         Schema::create('apartments', function (Blueprint $table) {
-            $table->id(); 
-            $table->string('name');
-            $table->string('code');
+            $table->id();
+            $table->string('name')->unique();
+            $table->string('code')->unique();
+            $table->bigInteger('user_id');
             $table->string('description')->nullable();
             $table->integer('status')->default(0);
             $table->timestamps();

@@ -89,7 +89,9 @@
           </div>
           <div class="form-group">
             <label for="name">Địa Điểm</label>
-            <select class="form-control" id="position" name="position">
+            <select class="form-control" id="location" name="location">     
+              <option value="Hà Nội">Hà Nội</option>
+              <option value="TP Hồ Chí Minh">TP Hồ Chí Minh</option>
               <option value="An Giang">An Giang</option>
               <option value="Bà Rịa–Vũng Tàu">Bà Rịa – Vũng Tàu</option>
               <option value="Bắc Giang">Bắc Giang</option>
@@ -113,7 +115,6 @@
               <option value="Gia Lai">Gia Lai</option>
               <option value="Hà Giang">Hà Giang</option>
               <option value="Hà Nam">Hà Nam</option>
-              <option value="Hà Nội">Hà Nội</option>
               <option value="Hà Tĩnh">Hà Tĩnh</option>
               <option value="Hải Dương">Hải Dương</option>
               <option value="Hải Phòng">Hải Phòng</option>
@@ -147,7 +148,6 @@
               <option value="Thanh Hóa">Thanh Hóa</option>
               <option value="Thừa Thiên Huế">Thừa Thiên Huế</option>
               <option value="Tiền Giang">Tiền Giang</option>
-              <option value="TP Hồ Chí Minh">TP Hồ Chí Minh</option>
               <option value="Trà Vinh">Trà Vinh</option>
               <option value="Tuyên Quang">Tuyên Quang</option>
               <option value="Vĩnh Long">Vĩnh Long</option>
@@ -174,14 +174,6 @@
           <div class="form-group">
             <label for="exampleFormControlSelect1">Ngày sinh</label>
             <input class="form-control" data-date-format="dd/mm/yyyy" id="birth_day" name="birth_day">
-          </div>
-          <div class="form-group tag_pass">
-            <label for="name">Mật Khẩu*</label>
-            <input type="password" class="form-control" id="password" name="password"  placeholder="Nhập Mật Khẩu...">
-          </div>
-          <div class="form-group tag_pass">
-            <label for="name">Nhập Lại Mật Khẩu*</label>
-            <input type="password" class="form-control" id="confirmpassword" name="confirmpassword"  placeholder="Xác Nhận Lại Mật Khẩu...">
           </div>
           <input type="hidden" name="id" id="eid">
 

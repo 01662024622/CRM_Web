@@ -11,7 +11,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>HTAuto</title>
   
-  <link rel="shortcut icon" href="http://www.htauto.com.vn/favicon.ico">
+  <link rel="shortcut icon" href="/crop-logo.png">
 
   <!-- Custom fonts for this template-->
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -20,43 +20,29 @@
   <!-- Custom styles for this template-->
 
   <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.css">
   <link  rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
   <style type="text/css">
-      #name-error{
-    color: #5a5c69;
-    font-size: 0.8rem;
-    position: relative;
-    line-height: 1;
-    color: red
-  }
-  .error{
-    color: #5a5c69;
-    font-size: 1rem;
-    position: relative;
-    line-height: 1;
-    color: red;
-    width: 100%;
-  }
-  .image-product{
-    width: 200px;
-    height: auto;
-  }
-  .dataTables_wrapper .dataTables_paginate .paginate_button {
-    box-sizing: border-box;
-    display: inline-block;
-    min-width: 1.5em;
-    padding: 0.5em 1em;
-    margin-left: 2px;
-    text-align: center;
-    text-decoration: none !important;
-    cursor: pointer;
-    *cursor: hand;
-    color: #333 !important;
-    border: 1px solid transparent;
-    border-radius: 2px;
-}
+    #name-error{
+      color: #5a5c69;
+      font-size: 0.8rem;
+      position: relative;
+      line-height: 1;
+      color: red
+    }
+    .error{
+      color: #5a5c69;
+      font-size: 1rem;
+      position: relative;
+      line-height: 1;
+      color: red;
+      width: 100%;
+    }
+    .btn-primary{
+      background-color: #000066
+    }
   </style>
   @yield('css')
 
@@ -72,10 +58,10 @@
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
-        <div class="sidebar-brand-icon rotate-n-15">
+        {{-- <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">{{ strtoupper(Auth::user()->role) }}</sup></div>
+        </div> --}}
+        {{ strtoupper(Auth::user()->role) }}
       </a>
 
       <!-- Divider -->
@@ -87,7 +73,7 @@
 
         @if(Auth::user()->role!="user")
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item">
+        <li @if ($group=='dashbroad') class="nav-item active" @else class="nav-item" @endif>
           <a class="nav-link" href="/dashboard">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Tổng Hợp</span></a>
@@ -96,34 +82,35 @@
           <!-- Divider -->
           <hr class="sidebar-divider">
 
-          <li class="nav-item active">
-            <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <li @if ($group=='manager') class="nav-item active" @else class="nav-item" @endif>
+            <a @if ($group=='manager') class="nav-link" aria-expanded="true" @else class="nav-link collapsed" aria-expanded="false" @endif href="#" data-toggle="collapse" data-target="#collapsePages" aria-controls="collapsePages">
               <i class="fas fa-fw fa-folder"></i>
               <span>Quản Lý</span>
             </a>
-            <div id="collapsePages" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="collapsePages" @if ($group=='manager') class="collapse show" @else class="collapse" @endif aria-labelledby="headingPages" data-parent="#accordionSidebar">
               <div class="bg-white py-2 collapse-inner rounded">
 {{--                 @if(Auth::user()->role=="admin")
                   <a class="collapse-item" href="/categories">
                     <i class="fas fa-fw fa-clipboard-list"></i>
                     <span>Danh Mục</span>
                   </a>
-                @endif --}}
+                  @endif --}}
 
-                @if(Auth::user()->role=="admin")
-                  <a class="collapse-item" href="/users">
+                  @if(Auth::user()->role=="admin")
+
+                  <a @if ($active=='users') class="collapse-item active" @else class="collapse-item" @endif  href="/users">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Người Dùng</span>
                   </a>
-                  <a class="collapse-item" href="/apartments">
+                  <a @if ($active=='apartments') class="collapse-item active" @else class="collapse-item" @endif href="/apartments">
                     <i class="fa fa-building"></i>
                     <span>Phòng Ban</span>
                   </a>
-                  <a class="collapse-item" href="/report/market">
+                  <a @if ($active=='report_market') class="collapse-item active" @else class="collapse-item" @endif href="/report/market">
                     <i class="fa fa-book"></i>
                     <span>Báo Cáo Thị Trường</span>
                   </a>
-                @endif
+                  @endif
                 </div>
               </div>
             </li>
@@ -158,6 +145,7 @@
 
                   <!-- Topbar -->
                   <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <img src="/logo.png" class="img-fluid" alt="" style="height: 100%">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -300,8 +288,8 @@
                       <!-- Nav Item - User Information -->
                       <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <span class="mr-2 d-none d-lg-inline text-gray-600 small">Thang VM</span>
-                          <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                          <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ strtoupper(Auth::user()->tagname) }}</span>
+                          <img class="img-profile rounded-circle" src="/user.png">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -342,7 +330,7 @@
                 <footer class="sticky-footer bg-white">
                   <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                      <span>HTAuto công ty thương mại phụ tùng ô tô</span>
+                      <span>COPYRIGHT © 1990 – 2020 HTAUTO. ALL RIGHTS RESERVED.</span>
                     </div>
                   </div>
                 </footer>
@@ -385,7 +373,7 @@
             <!-- Bootstrap core JavaScript-->
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
             <script src="{{asset('/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
 
@@ -402,6 +390,8 @@
 
             <script src="{{asset('/js/jquery.validate.min.js')}}" type="text/javascript"></script>
             <script src="{{ asset('/js/jquery.dataTables.min.js') }}"></script>
+
+            <script src="{{asset('vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.js"></script>
             

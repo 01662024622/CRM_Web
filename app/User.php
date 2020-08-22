@@ -16,7 +16,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'tagname', 'position', 'apartment_id', 'location', 'skype', 'email_htauto', 'phone_htauto', 'email', 'phone', 'role', 'birth_day', 'authentication', 'password'
+        'name', 'tagname', 'position', 'apartment_id', 'location', 'skype', 'email_htauto', 'phone_htauto', 'email', 'phone', 'role',
+         'birth_day', 'authentication', 'password','status'
     ];
 
     /**
@@ -36,4 +37,8 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function apartment()
+    {
+        return $this->belongsTo('App\Apartment');
+    }
 }

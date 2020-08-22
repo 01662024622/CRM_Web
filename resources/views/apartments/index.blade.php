@@ -5,7 +5,7 @@
 @section('content')
 
 <br><br>
-<button type="button" class="btn btn-primary" data-toggle="modal" href='#add-modal'>+Thêm mới</button>
+<button type="button" class="btn btn-primary" onclick="clearForm()" data-toggle="modal" href='#add-modal'>+Thêm mới</button>
 
 <br><br>
 <table class="table table-bordered" id="users-table">
@@ -14,6 +14,7 @@
       <th>ID</th>
       <th>Tên Phòng Ban</th>
       <th>Mã Phòng Ban</th>
+      <th>Quản lý</th>
       <th>Chú Thích</th>
       <th>Hành Động</th>
     </tr>
@@ -44,21 +45,29 @@
             <input type="text" class="form-control" id="code" name="code"  placeholder="Nhập Mã Phòng Ban...">
           </div>
           <div class="form-group">
+            <label for="card-holder" class="form-label-header">Quản Lý</label>
+            <select class="form-control" id="user_id" name="user_id">
+              @foreach ($users as $user)
+              <option value="{{ $user->id }}">{{ $user->name}}</option>
+              @endforeach
+            </select>
+          </div>
+          <div class="form-group">
             <label for="name">Note</label>
             <input type="text" class="form-control" id="description" name="description"  placeholder="Chú thích...">
           </div>
           <input type="hidden" name="id" id="eid">
 
-       </div>
+        </div>
 
-       <!-- Modal footer -->
-       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save</button>
-      </div>
-    </form>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
 </div>
 
 

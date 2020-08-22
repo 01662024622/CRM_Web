@@ -10,7 +10,7 @@
   <br><br>
   <table class="table table-bordered table-striped" id="users-table">
     <thead>
-      <tr class="table-primary">
+      <tr>
         <th>Ngày thăm</th>
         <th>Tên khách</th>
         <th>TT tư vấn</th>

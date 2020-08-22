@@ -26,6 +26,7 @@ columns: [
 { data: 'id', name: 'id' },
 { data: 'name', name: 'name' },
 { data: 'code', name: 'code' },
+{ data: 'user_id', name: 'user_id' },
 { data: 'description', name: 'description' },
 { data: 'action', name: 'action' },
 ],
@@ -99,7 +100,14 @@ $("#add-form").submit(function(e){
        $("#add-modal").modal('toggle');
        dataTable.ajax.reload();
      }, error: function (xhr, ajaxOptions, thrownError) {
-      toastr.error(thrownError);
+      if (xhr!=null) {
+        if (xhr.responseJSON!=null) {
+          if (xhr.responseJSON.message!=null) {
+              toastr.error(xhr.responseJSON.message);
+            }
+          }
+        }
+      
     },       
   });
   }
@@ -117,7 +125,8 @@ $("#add-form").submit(function(e){
           {
            $('#name').val(response.name);
            $('#code').val(response.code);
-           $('#note').val(response.note);
+           $('#user_id').val(response.user_id);
+           $('#description').val(response.description);
            $('#eid').val(response.id);
          },
          error: function (xhr, ajaxOptions, thrownError) {
