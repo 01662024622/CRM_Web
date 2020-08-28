@@ -2,30 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Apartment;
 use App\Http\Controllers\Base\ResouceController;
 use App\Http\Requests\StoreUser;
 use App\Services\UserService;
-use App\Apartment;
 use Illuminate\Support\Facades\View;
 
 class UserController extends ResouceController
 {
-	function __construct(UserService $userService)
+    function __construct(UserService $userService)
     {
         $this->middleware('admin');
         parent::__construct($userService, array('active' => 'users', 'group' => 'manager'));
         View::share('apartments', Apartment::all());
     }
+
     public function store(StoreUser $request)
     {
-        $data = $request->all();
-        if (array_key_exists("status", $data)) {
-            return response()
-                ->json([
-                    'code' => 400,
-                    'message' => 'Quyền không hợp lệ!'
-                ], 400);
+        if ($request->has("id")) {
+            $data = $request->only(['id', 'name', 'position', 'apartment_id', 'location', 'skype', 'email_htauto', 'phone_htauto', 'phone',
+                'birth_day']);
+        } else {
+            $data = $request->only(['name', 'position', 'apartment_id', 'location', 'skype', 'email_htauto', 'phone_htauto', 'phone',
+                'birth_day']);
         }
         return parent::storeArr($data);
     }
+
 }

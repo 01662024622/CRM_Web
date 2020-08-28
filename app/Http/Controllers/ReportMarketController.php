@@ -30,12 +30,9 @@ class ReportMarketController extends ResouceController
 
 
 	public function index(){
-		if (!Auth::check()) {
-			return redirect('login');
-		}elseif (Auth::user()->role!="admin") {
+		if (Auth::user()->role!="admin") {
 			return redirect('login');
 		}
-//        return view('report_market.index');
 		return parent::index();
 	}
 

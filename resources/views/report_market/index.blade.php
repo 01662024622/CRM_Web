@@ -56,7 +56,15 @@
             </div>
             <div class="form-group">
               <label for="name">Tiến trình tư vấn</label>
-              <input type="text" class="form-control" id="advisory" name="advisory"  placeholder="Tiến trình tư vấn...">
+                <select class="form-control" id="advisory" name="advisory">
+                    <option value="Chào hàng lần đầu">Chào hàng lần đầu</option>
+                    <option value="Thăm lại khách đã chào hàng">Thăm lại khách đã chào hàng</option>
+                    <option value="Thăm lại khách đã nhập hàng">Thăm lại khách đã nhập hàng</option>
+                    <option value="Thăm khách hàng ký gửi">Thăm khách hàng ký gửi</option>
+                    <option value="Telesales">Telesales</option>
+                    <option value="Thúc đẩy doanh số bán hàng">Thúc đẩy doanh số bán hàng</option>
+                    <option value="Mở thêm SKU, Brand mới">Mở thêm SKU, Brand mới</option>
+                </select>
             </div>
             <div class="form-group">
               <label for="name">Phản hồi của khách / Noted</label>
@@ -64,7 +72,16 @@
             </div>
             <div class="form-group">
               <label for="name">Phản hồi khác</label>
-              <input type="text" class="form-control" id="feedback_other" name="feedback_other"  placeholder="Phản hồi của khách...">
+                <select class="form-control" id="dev_plan" name="dev_plan">
+                    <option value="Tiếp tục chăm sóc">Tiếp tục chăm sóc</option>
+                    <option value="Dừng chăm sóc, khách không tiềm năng">Dừng chăm sóc, khách không tiềm năng</option>
+                    <option value="Cấp vật dụng POSM, làm hình ảnh tại điểm bán">Cấp vật dụng POSM, làm hình ảnh tại điểm bán</option>
+                    <option value="Ký gửi sản phẩm">Ký gửi sản phẩm</option>
+                    <option value="Tập dung Dầu Số">Tập dung Dầu Số</option>
+                    <option value="Tập trung đẩy Phụ Gia ">Tập trung đẩy Phụ Gia </option>
+                    <option value="Tập trung Dầu Động Cơ">Tập trung Dầu Động Cơ</option>
+                    <option value="Khác">Khác</option>
+                </select>
             </div>
             <div class="form-group">
               <label for="name">Kế hoạch phát triển</label>

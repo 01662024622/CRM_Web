@@ -1,177 +1,122 @@
 
-
-//____________________________________________________________________________________________________
-var dataTable = $('#users-table').DataTable({
-    processing: true,
-    serverSide: true,
-    ajax:{ type: "GET",
-        url: "/api/v1/report/market/table",
-        error: function (xhr, ajaxOptions, thrownError) {
-            if (xhr!=null) {
-                if (xhr.responseJSON!=null) {
-                    if (xhr.responseJSON.errors!=null) {
-                        if (xhr.responseJSON.errors.permission!=null) {
-                            location.reload();
-                        }
-                    }
-                }
-            }
-        }},
-    columns: [
-        { data: 'date_work', name: 'date_work' },
-        { data: 'name_follow', name: 'name_follow' },
-        { data: 'advisory', name: 'advisory' },
-        { data: 'feedback', name: 'feedback' },
-        { data: 'dev_plan', name: 'dev_plan' },
-        { data: 'action', name: 'action' },
-    ],
-    oLanguage:{
-        "sProcessing":   "Đang xử lý...",
-        "sLengthMenu":   "Xem _MENU_ mục",
-        "sZeroRecords":  "Không tìm thấy dòng nào phù hợp",
-        "sInfo":         "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
-        "sInfoEmpty":    "Đang xem 0 đến 0 trong tổng số 0 mục",
-        "sInfoFiltered": "(được lọc từ _MAX_ mục)",
-        "sInfoPostFix":  "",
-        "sSearch":       "Tìm Kiếm: ",
-        "sUrl":          "",
-        "oPaginate": {
-            "sFirst":    " Đầu ",
-            "sPrevious": " Trước ",
-            "sNext":     " Tiếp ",
-            "sLast":     " Cuối "
-        }
+$('#apartment_id').on('change', function() {
+    $('#custom').hide();
+    $('#submit').prop('disabled', true);
+    if ($(this).val()==0) {
+        $('#submit').prop('disabled', false);
+        return
     }
-});
-
-$("#add-form").submit(function(e){
-    e.preventDefault();
-}).validate({
-    rules: {
-        advisory: {
-            required: true,
-        }
-    },
-    messages: {
-        advisory: {
-            required: "Hãy nhập thông tin",
-        }
-    },
-    submitHandler: function(form) {
-        var formData = new FormData(form);
-        if ($('#eid').val()=='') {
-            formData.delete('id');
-        }
-
-        $.ajax({
-            url: form.action,
-            type: form.method,
-            data: formData,
-            dataType:'json',
-            async:false,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                setTimeout(function () {
-                    if ($('#eid').val()=='') {
-                        toastr.success('Thêm mới thành công!');
-                    }else{
-                        toastr.success('Cập nhật thành công!');
-                    }
-                },1000);
-                $("#add-modal").modal('toggle');
-                dataTable.ajax.reload();
-            }, error: function (xhr, ajaxOptions, thrownError) {
-                toastr.error(xhr.responseJSON.message);
-            },
-        });
-    }
-});
-
-
-// get data for form update
-function getInfo(id) {
-    console.log(id);
-    // $('#editPost').modal('show');
     $.ajax({
-        type: "GET",
-        url: "/report/market/"+id,
-        success: function(response)
-        {
-            $('#customer_id').val(response.customer_id);
-            $('#advisory').val(response.advisory);
-            $('#feedback').val(response.feedback);
-            $('#feedback_other').val(response.feedback_other);
-            $('#dev_plan').val(response.dev_plan);
-            $('#type').val(response.type);
-            $('#scale').val(response.scale);
-            $('#service').val(response.service);
-            $('#type_market').val(response.type_market);
-            if (response.image_1!=""&&response.image_1!=null) {
-                $('.labelimage_1').css("display","inline-block");
+        url:'/review/report/'+$(this).val(),
+        type: 'GET',
+        success: function(response) {
+            var html='<option value="0" checked>Ý kiến cải thiện chung</option>';
+            for (var i = response.length - 1; i >= 0; i--) {
+                html += `<option value="`+response[i]['id']+`">`+response[i]['name']+`</option>`
             }
-            if (response.image_2!=""&&response.image_2!=null) {
-                $('.labelimage_2').css("display","inline-block");
-            }
-            if (response.image_3!=""&&response.image_3!=null) {
-                $('.labelimage_3').css("display","inline-block");
-            }
-            $('#eid').val(response.id);
-            $('.tag_pass').remove();
+            $('#user_id').html(html);
+            $('#custom').show();
+        }, error: function (xhr, ajaxOptions, thrownError) {
+            toastr.error(xhr.responseJSON.message);
         },
-        error: function (xhr, ajaxOptions, thrownError) {
-            toastr.error(thrownError);
+    });
+})
+
+
+$('#submit').on('click', function(){
+    var createForm = new FormData();
+    if($('#apartment_id').val()==0){
+        createForm.append('teamwork',$('input[name=teamwork]:checked').val());
+    }else{
+        createForm.append('teamwork',$('input[name=teamwork]:checked').val());
+        createForm.append('apartment_id',$('#apartment_id').val());
+        createForm.append('user_id',$('#user_id').val());
+        createForm.append('note',$("#note").val());
+        if ($('input.check-box:checkbox:checked').length>0) {
+            var checkbox=[];
+            $('input.check-box:checkbox:checked').each(function () {
+                createForm.append('list[]',$(this).val());
+            });
+
+        }  
+        if ($("#new-checkbox").val()!="") {
+            createForm.append('newreport',$("#new-checkbox").val());
+        }
+    }
+
+    $.ajax({
+      url: '/review/report',
+      type: 'POST',
+      data: createForm,
+      dataType:'json',
+      async:false,
+      processData: false,
+      contentType: false,
+      success: function(response, textStatus, request) {
+        document.location.replace('/review/user/success/'+authorization);
+    }, error: function (xhr, ajaxOptions, thrownError) {
+      // toastr.error(thrownError);
+  },       
+});
+})
+
+
+$(':input[type="checkbox"]').change(function() {
+    checkLength()
+});
+$('#new-checkbox-text').on('keyup',function(){
+    if($(this).val()!=""){
+        $('#new-checkbox').prop('checked', true);
+        $('#new-checkbox').val($(this).val());
+    }else{
+        $('#new-checkbox').prop('checked', false);
+        $('#new-checkbox').val($(this).val());
+    }
+    checkLength()
+
+})
+function checkLength(){
+    var length = $('input.form-check-input:checkbox:checked').length;
+    if (length>0) {
+        $('#submit').prop('disabled', false);
+    }else{
+        $('#submit').prop('disabled', true);
+    }
+}
+
+$('#type').on('change', function(){
+    $('#review').hide();
+    $('#giao-nhan').hide();
+    $('#'+$(this).val()).show();
+})
+
+$('.validate-feedback').on('keyup',function(){
+    var disable=false;
+    $('.validate-feedback').each(function () {
+        if($(this).val()==""){
+            disable=true;
         }
     });
-}
-
-
-
-//____________________________________________________________________________________________________
-
-//____________________________________________________________________________________________________
-// Update function
-// Delete function
-function alDelete(id){
-    swal({
-            title: "Bạn chắc muốn xóa bỏ?",
-            // text: "Bạn sẽ không thể khôi phục lại bản ghi này!!",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            cancelButtonText: "Không",
-            confirmButtonText: "Có",
-            // closeOnConfirm: false,
-        },
-        function(isConfirm) {
-            if (isConfirm) {
-                $.ajax({
-                    type: "delete",
-                    url: "/report/market/"+id,
-                    success: function(res)
-                    {
-                        if(!res.error) {
-                            toastr.success('Đã xóa!');
-                            $('#data-'+id).remove();
-                        }
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        toastr.error(thrownError);
-                    }
-                });
-            } else {
-                toastr.error("Hủy bỏ thao tác!");
-            }
-        });
-};
-
-
-function clearForm(){
-    $('#add-form')[0].reset();
-    $('#eid').val('');
-    $('#date_work').datepicker("setDate", new Date());
-}
-
-$("#labelfile").click(function() {
-    $("#image_1").trigger('click');
+    $('#submit-feedback').prop('disabled', disable);
 });
+
+$('#submit-feedback').on('click', function(){
+    var createForm = new FormData();
+    createForm.append('order',$('#order-feedback').val());
+    createForm.append('content',$('#content-feedback').val());
+    createForm.append('note',$('#note-feedback').val());
+    $.ajax({
+      url: '/feedback/report',
+      type: 'POST',
+      data: createForm,
+      dataType:'json',
+      async:false,
+      processData: false,
+      contentType: false,
+      success: function(response, textStatus, request) {
+        document.location.replace('/review/user/success/'+authorization);
+    }, error: function (xhr, ajaxOptions, thrownError) {
+      // toastr.error(thrownError);
+  },       
+});
+})

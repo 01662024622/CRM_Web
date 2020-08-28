@@ -12,12 +12,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes(['register' => false]);
+Auth::routes(['register' => false,'request' => false, 'reset' => false]);
 
 
-Route::get('/', 'CustomerController@index');
+Route::get('/', 'ReportMarketController@index');
 Route::get('/report/user/{auth}', 'CustomerController@intergration');
 Route::get('/review/user/{auth}', 'CustomerController@review360');
+Route::get('/review/user/success/{auth}', 'CustomerController@success');
 
 Route::get('/home', 'UserController@index')->name('home');
 
@@ -25,9 +26,11 @@ Route::resource('users', 'UserController');
 Route::resource('apartments', 'ApartmentController');
 Route::get('user-profile', 'UserController@profile');
 Route::resource('report/market', 'ReportMarketController');
+Route::resource('/review/report', 'ReviewController');
+Route::resource('/feedback/report', 'FeedbackController');
 
 Route::get('/category/{slug}', 'HomeController@category');
-Route::get('/test', 'ReportMarketController@test');
+Route::get('/profile', 'CustomerController@profile');
 
 // Route::resource('categories', 'CategoryController');
 

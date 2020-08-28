@@ -3,21 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Apartment;
+use App\Improve360;
+use App\ReviewIprove360;
 use App\Services\ApartmentService;
+use App\Services\ReviewService;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use App\Http\Controllers\Base\ResouceController;
 
-class ReviewController extends Controller
+class ReviewController extends ResouceController
 {
-    function __construct(ReportMarketService $reportMarketService) {
+    function __construct(ReviewService $service) {
         $this->middleware('auth.api');
-        parent::__construct($reportMarketService, array('active' => 'report_review', 'group' => 'OKRs'));
-        View::share("apartments",Apartment::where("status",0)->get()->users);
+        parent::__construct($service, array('active' => 'report_review', 'group' => 'OKRs'));
+        View::share("apartments",Apartment::where("status",0)->get());
     }
-
 
 
     public function index(){
@@ -29,10 +32,13 @@ class ReviewController extends Controller
 //        return view('report_market.index');
         return parent::index();
     }
-
-
-    public function store(StoreReportMarket $request) {
-        $data=$request->all();
+    public function show($id){
+        $data=User::where('apartment_id',$id)->where('role','<>','block')->where('status',0)->get();
+        return response()->json($data);
+    }
+    public function store(Request $request)
+    {
+        $data = $request->all();
         if (array_key_exists("status", $data)) {
             return response()
                 ->json([
@@ -40,31 +46,20 @@ class ReviewController extends Controller
                     'message' => 'Quyền không hợp lệ!'
                 ], 400);
         }
-        if (Auth::check()){
-            $data["user_id"]= Auth::id();
-        }else{
-            $user = User::where('authentication',$request->header('Authorization'))->first();
-            $data["user_id"]=$user->id;
-        }
-        // check image and put job to driver
-        if ($request->hasFile('image_1')) {
-            $name = time()."-1-".$data['user_id']."-".$request->image_1->getClientOriginalExtension();
-            $request->image_1->storeAs('/', $name, 'google');
-            $data['image_1']=$name;
-        }
-        if ($request->hasFile('image_2')) {
-            $name = time()."-2-".$data['user_id']."-".$request->image_2->getClientOriginalExtension();
-            $request->image_2->storeAs('/', $name, 'google');
-            $data['image_2']=$name;
-        }
-        if ($request->hasFile('image_3')) {
-            $name = time()."-3-".$data['user_id']."-".$request->image_3->getClientOriginalExtension();
-            $request->image_3->storeAs('/', $name, 'google');
-            $data['image_3']=$name;
-        }
-
-        // format date
-        $data['date_work']=Carbon::createFromFormat('d/m/Y', $data['date_work'])->format('Y/m/d');
-        return parent::storeArr($data);
+        $data['create_by']=Auth::id();
+        $review = parent::storeArr($data);
+        if (array_key_exists("apartment_id", $data)) {
+            if (array_key_exists("list", $data)){
+                foreach ($data['list'] as $value) {
+                    ReviewIprove360::create(['improve_360_id'=>$value,'review_360_id'=>$review->id]);
+                }
+            }
+            if (array_key_exists("newreport", $data)){
+                $improve = Improve360::create(['content'=> $data['newreport']]);
+                ReviewIprove360::create(['improve_360_id'=>$improve->id,'review_360_id'=>$review->id]);
+            }
+            return $review;
+        }else return $review;
     }
+
 }

@@ -23,9 +23,7 @@ class CategoryController extends Controller
         // $categories=Category::orderBy('id','DESC')->get();
 		return response()->json($data);
 	}
-	public function destroy($data){
-        // Product::find($id);
-
+	public function destroy($id){
 		$data=Category::find($id)->delete();
 		return response()->json($data);
 	}

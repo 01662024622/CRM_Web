@@ -10,7 +10,7 @@
   <meta name="author" content="">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>HTAuto</title>
-  
+
   <link rel="shortcut icon" href="/crop-logo.png">
 
   <!-- Custom fonts for this template-->
@@ -153,7 +153,7 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    
+
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -289,11 +289,11 @@
                       <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ strtoupper(Auth::user()->tagname) }}</span>
-                          <img class="img-profile rounded-circle" src="/user.png">
+                          <img class="img-profile rounded-circle" src="{{ Auth::user()->avata }}">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                          <a class="dropdown-item" href="#">
+                          <a class="dropdown-item" href="/profile">
                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                             Hồ sơ
                           </a>
@@ -394,7 +394,7 @@
             <script src="{{asset('vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.js"></script>
-            
+
 
             @yield('js')
           </body>

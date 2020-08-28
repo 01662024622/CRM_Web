@@ -16,8 +16,9 @@ class CreateReview360Table extends Migration
         Schema::create('review_360', function (Blueprint $table) {
             $table->id();
             $table->string("teamwork");
-            $table->bigInteger("apartment_id");
-            $table->bigInteger("user_id");
+            $table->bigInteger("apartment_id")->default(0);
+            $table->bigInteger("user_id")->default(0);
+            $table->bigInteger("create_by");
             $table->string("note")->nullable();
             $table->string("option")->nullable();
             $table->timestamps();

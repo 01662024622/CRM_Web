@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Redirect;
 
 class AuthorizationApiMiddleware
 {
@@ -30,14 +31,11 @@ class AuthorizationApiMiddleware
                         'message'   =>  'Quyền không hợp lệ!'
                     ], 400);
                 }
+                Auth::login($user);
                 return $next($request);
             }
-            else return response()
-                ->json([
-                    'code'      =>  400,
-                    'message'   =>  'Quyền không hợp lệ!'
-                ], 400);
+            else return Redirect::to('login')->with('infor', 'Bạn chưa đăng nhập!');
         }
-        
+
     }
 }

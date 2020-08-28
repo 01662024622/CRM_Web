@@ -17,4 +17,11 @@ $(document).ready(function() {
     $(".file-upload").on('change', function(){
         readURL(this);
     });
+
+$('#birth_day').datepicker({
+      weekStart: 1,
+      daysOfWeekHighlighted: "6,0",
+      autoclose: true,
+      todayHighlight: true,
+    });
 });

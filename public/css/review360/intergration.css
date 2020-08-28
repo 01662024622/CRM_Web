@@ -152,9 +152,9 @@
         }
 
         .text-button:focus {
-         outline:none !important;
-     }
-     input[type=checkbox] {
+           outline:none !important;
+       }
+       input[type=checkbox] {
         transform: scale(1.5);
     }
     input[type=radio] {
@@ -178,4 +178,11 @@
     *{
         font-family: 'Google Sans',Roboto,Arial,sans-serif;
     }
-}
+
+
+    #giao-nhan{
+        display: none;
+    }
+    #review{
+        display: none;
+    }
