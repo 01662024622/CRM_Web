@@ -19,7 +19,7 @@
             <div class="text-center">
                 <img src="{{ Auth::user()->avata }}" class="avatar img-circle img-thumbnail" alt="avatar">
                 <h6>Cập nhật ảnh địa diện...</h6>
-                <input type="file" class="text-center center-block file-upload">
+                <input type="file" class="text-center center-block file-upload" accept="image/png, image/jpeg, image/jpg">
             </div>
             <br>
 

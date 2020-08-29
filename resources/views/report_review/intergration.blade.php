@@ -52,7 +52,7 @@
                 <select class="form-control" id="type" name="type">
                   <option disabled selected value> -- Chọn -- </option>
                   <option value="review">Review 360</option>
-                  <option value="giao-nhan">Feedback giao nhận</option>
+                  <option value="giao-nhan">Feedback khách hàng</option>
                 </select>
               </div>
             </div>
@@ -171,7 +171,7 @@
         <div id="giao-nhan">
           <div class="container-form">
             <div class="card-details">
-              <h3 class="title">Feed back giao nhận</h3>
+              <h3 class="title">Feedback khách hàng</h3>
               <div class="row">
                 <div class="form-group col-sm-12">
                   <label for="card-holder" class="form-label-header">Số toa *</label>

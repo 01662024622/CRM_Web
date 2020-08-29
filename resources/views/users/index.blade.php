@@ -89,7 +89,7 @@
           </div>
           <div class="form-group">
             <label for="name">Địa Điểm</label>
-            <select class="form-control" id="location" name="location">     
+            <select class="form-control" id="location" name="location">
               <option value="Hà Nội">Hà Nội</option>
               <option value="TP Hồ Chí Minh">TP Hồ Chí Minh</option>
               <option value="An Giang">An Giang</option>
@@ -164,12 +164,8 @@
             <input type="email" class="form-control" id="email_htauto" name="email_htauto"  placeholder="Nhập Email HTAuto...">
           </div>
           <div class="form-group">
-            <label for="name">SĐT Cá Nhân</label>
+            <label for="name">SĐT</label>
             <input type="tel" class="form-control" id="phone" name="phone"  placeholder="Nhập Số Điện Thoại Cá Nhân...">
-          </div>
-          <div class="form-group">
-            <label for="name">SĐT HTAuto</label>
-            <input type="tel" class="form-control" id="phone_htauto" name="phone_htauto"  placeholder="Nhập Số Điện Thoại HTAuto...">
           </div>
           <div class="form-group">
             <label for="exampleFormControlSelect1">Ngày sinh</label>

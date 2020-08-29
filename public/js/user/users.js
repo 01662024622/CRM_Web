@@ -124,7 +124,6 @@ function getInfo(id) {
             $('#skype').val(response.skype);
             $('#email_htauto').val(response.email_htauto);
             $('#phone').val(response.phone);
-            $('#phone_htauto').val(response.phone_htauto);
             $('#birth_day').val(response.birth_day);
             $('#eid').val(response.id);
         },
