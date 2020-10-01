@@ -2,16 +2,18 @@
 
 namespace App\Providers;
 
-use App\Services\ApartmentService;
+use App\Services\CustomerFeedbackService;
+use App\Services\FeedbackPRService;
 use App\Services\FeedbackService;
-use App\Services\Impl\ApartmentServiceImpl;
+use App\Services\FeedbackWarehouseService;
+use App\Services\Impl\CustomerFeedbackServiceImpl;
+use App\Services\Impl\FeedbackPRServiceImpl;
 use App\Services\Impl\FeedbackServiceImpl;
+use App\Services\Impl\FeedbackWarehouseServiceImpl;
 use App\Services\Impl\ReportMarketServiceImpl;
 use App\Services\Impl\ReviewServiceImpl;
-use App\Services\Impl\UserServiceImpl;
 use App\Services\ReportMarketService;
 use App\Services\ReviewService;
-use App\Services\UserService;
 use Illuminate\Support\ServiceProvider;
 
 
@@ -24,14 +26,7 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(
-            ApartmentService::class,
-            ApartmentServiceImpl::class
-        );
-        $this->app->singleton(
-            UserService::class,
-            UserServiceImpl::class
-        );
+
         $this->app->singleton(
             ReportMarketService::class,
             ReportMarketServiceImpl::class
@@ -43,6 +38,18 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(
             FeedbackService::class,
             FeedbackServiceImpl::class
+        );
+        $this->app->singleton(
+            CustomerFeedbackService::class,
+            CustomerFeedbackServiceImpl::class
+        );
+        $this->app->singleton(
+            FeedbackWarehouseService::class,
+            FeedbackWarehouseServiceImpl::class
+        );
+        $this->app->singleton(
+            FeedbackPRService::class,
+            FeedbackPRServiceImpl::class
         );
     }
 

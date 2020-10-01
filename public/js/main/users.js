@@ -22,7 +22,7 @@ var dataTable = $('#users-table').DataTable({
   }
 }},
 columns: [
-{ data: 'id', name: 'id' },
+{ data: 'DT_RowIndex', name: 'DT_RowIndex' },
 { data: 'name', name: 'name' },
 { data: 'email', name: 'email' },
 { data: 'phone', name: 'phone' },
@@ -90,7 +90,7 @@ $("#add-form").submit(function(e){
       required:"Hãy nhập password",
       minlength:"Mật khẩu ít nhất phải có 8 kí tự",
     },
-    
+
   },
   submitHandler: function(form) {
     var formData = new FormData(form);
@@ -118,7 +118,7 @@ $("#add-form").submit(function(e){
        dataTable.ajax.reload();
      }, error: function (xhr, ajaxOptions, thrownError) {
       toastr.error(thrownError);
-    },       
+    },
   });
   }
 });
@@ -158,7 +158,7 @@ $("#add-form").submit(function(e){
         // text: "Bạn sẽ không thể khôi phục lại bản ghi này!!",
         type: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#DD6B55",  
+        confirmButtonColor: "#DD6B55",
         cancelButtonText: "Không",
         confirmButtonText: "Có",
         // closeOnConfirm: false,
@@ -187,10 +187,10 @@ $("#add-form").submit(function(e){
 
 
       function clearForm(){
-        $('#add-form')[0].reset(); 
+        $('#add-form')[0].reset();
 
         $('.tag_pass').remove();
-        $('#eid').val(''); 
+        $('#eid').val('');
         $('.modal-body').append(`<div class="form-group tag_pass">
           <label for="name">Password</label>
           <input type="password" class="form-control" id="password" name="password"  placeholder="Enter password">
@@ -209,7 +209,7 @@ $("#add-form").submit(function(e){
         // text: "Bạn sẽ không thể khôi phục lại bản ghi này!!",
         type: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#DD6B55",  
+        confirmButtonColor: "#DD6B55",
         cancelButtonText: "Không",
         confirmButtonText: "Có",
         // closeOnConfirm: false,

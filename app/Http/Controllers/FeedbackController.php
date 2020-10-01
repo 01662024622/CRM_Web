@@ -6,13 +6,12 @@ use App\Http\Controllers\Base\ResouceController;
 use App\Services\FeedbackService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\View;
 
 class FeedbackController extends ResouceController
 {
-    function __construct(FeedbackService $feedbackService) {
+    function __construct(FeedbackService $service) {
         $this->middleware('auth.api');
-        parent::__construct($feedbackService, array('active' => 'report_feedback', 'group' => 'manager'));
+        parent::__construct($service, array('active' => 'report_feedback', 'group' => 'manager'));
     }
     public function store(Request $request)
     {

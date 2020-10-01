@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <style>
+    /* Make the image fully responsive */
+    .carousel-inner img {
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      margin: 0;            /* Reset default margin */
+    }
+    iframe {
+      display: block;       /* iframes are inline by default */
+      background: #000;
+      border: none;         /* Reset default border */
+      height: 100vh;        /* Viewport-relative units */
+      width: 100vw;
+    }
+    .carousel-item{
+      display: none;
+    }
+    .active{
+      display: block !important;
+    }
+  </style>
+</head> 
+<body>
+  <button onclick="openFullscreen();">Open Video in Fullscreen Mode</button>
+  <div id="myCarousel">
+    <div class="carousel-item active" duration="208000" type="video">
+      <iframe width="1920" height="1080" src="https://www.youtube.com/embed/oNKH5H1hfHE?autoplay=1&vq=hd1080" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+    <div class="carousel-item" duration="407000" type="video">
+      <iframe width="1920" height="1080" src="https://www.youtube.com/embed/UXL_LQ7bsiI?autoplay=1&vq=hd1080" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+  </div>
+</body>
+<script type="text/javascript">
+ var i=1;
+ var lnt =document.getElementsByClassName("carousel-item").length;
+ function myLoop(interval) {        
+  setTimeout(function() {
+    document.getElementsByClassName("active")[0].classList.remove("active");
+    document.getElementsByClassName("carousel-item")[i%lnt].classList.add("active");
+    document.getElementsByClassName("active")[0].children[0].src=document.getElementsByClassName("active")[0].children[0].src;
+    i++;                   
+    if (i < 100000) {           
+      myLoop(document.getElementsByClassName("active")[0].getAttribute("duration"));     
+    }                       
+  }, interval)
+}
+
+myLoop(document.getElementsByClassName("active")[0].getAttribute("duration")); 
+
+
+
+var elem = document.getElementById("myCarousel");
+function openFullscreen() {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.mozRequestFullScreen) { /* Firefox */
+    elem.mozRequestFullScreen();
+  } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE/Edge */
+    elem.msRequestFullscreen();
+  }
+}
+</script>
+</html>
+</html>

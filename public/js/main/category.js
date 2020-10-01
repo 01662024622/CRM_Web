@@ -13,10 +13,25 @@ var dataTable = $('#users-table').DataTable({
   { data: 'id', name: 'id' },
   { data: 'name', name: 'name' },
   { data: 'parent_id', name: 'parent_id' },
-  { data: 'created_at', name: 'created_at' },
-  { data: 'status', name: 'status' },
   { data: 'action', name: 'action' },
-  ]
+  ],
+    oLanguage: {
+        "sProcessing": "Đang xử lý...",
+        "sLengthMenu": "Xem _MENU_ mục",
+        "sZeroRecords": "Không tìm thấy dòng nào phù hợp",
+        "sInfo": "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+        "sInfoEmpty": "Đang xem 0 đến 0 trong tổng số 0 mục",
+        "sInfoFiltered": "(được lọc từ _MAX_ mục)",
+        "sInfoPostFix": "",
+        "sSearch": "Tìm Kiếm: ",
+        "sUrl": "",
+        "oPaginate": {
+            "sFirst": " Đầu ",
+            "sPrevious": " Trước ",
+            "sNext": " Tiếp ",
+            "sLast": " Cuối "
+        }
+    }
 });
 //____________________________________________________________________________________________________
 
@@ -27,15 +42,13 @@ $("#add-form").submit(function(e){
   rules: {
     name: {
       required: true,
-      minlength: 5
     }
   },
   messages: {
     name: {
-      required: "Enter your name",
-      minlength: "Leaste 5 word"
+      required: "Nhập tên danh mục",
     }
-    
+
   },
   submitHandler: function(form) {
 
@@ -56,7 +69,7 @@ $("#add-form").submit(function(e){
        dataTable.ajax.reload();
      }, error: function (xhr, ajaxOptions, thrownError) {
       toastr.error(thrownError);
-    },       
+    },
   });
   }
 });
@@ -96,7 +109,7 @@ $("#add-form").submit(function(e){
          dataTable.ajax.reload();
        }, error: function (xhr, ajaxOptions, thrownError) {
         toastr.error(thrownError);
-      },       
+      },
     });
     }
   });
@@ -112,7 +125,7 @@ $("#add-form").submit(function(e){
         // text: "Bạn sẽ không thể khôi phục lại bản ghi này!!",
         type: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#DD6B55",  
+        confirmButtonColor: "#DD6B55",
         cancelButtonText: "No",
         confirmButtonText: "Yes",
         // closeOnConfirm: false,
@@ -154,12 +167,12 @@ $("#add-form").submit(function(e){
         viewModel.onClear = function(fileData){
           if(confirm('Are you sure?')){
             fileData.clear && fileData.clear();
-          }                            
+          }
         };
         viewModel.debug = function(){
           window.viewModel = viewModel;
           console.log(ko.toJSON(viewModel));
-          debugger; 
+          debugger;
         };
         ko.applyBindings(viewModel);
       });
@@ -180,7 +193,7 @@ function getInfo(id) {
           {
             $('#ename').val(response.name);
             $('#eparent_id').val(response.parent_id);
-            $('#eid').val(response.id);    
+            $('#eid').val(response.id);
           },
           error: function (xhr, ajaxOptions, thrownError) {
             toastr.error(thrownError);
@@ -197,7 +210,7 @@ function getInfo(id) {
           success: function(response)
           {
           // location.reload();
-          
+
          dataTable.ajax.reload();
            toastr.success('has been updated');
           },

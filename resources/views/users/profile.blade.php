@@ -31,7 +31,7 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="home">
                     <hr>
-                    <form class="form" action="##" method="post" id="registrationForm">
+                    <form class="form" action="/user-profile" method="post" id="update-profile">
                         <div class="form-group">
                             <div class="col-xs-6">
                                 <label for="first_name"><h4>Họ và Tên</h4></label>
@@ -86,7 +86,7 @@
                             <div class="col-xs-12">
                                 <br>
                                 <button class="btn btn-lg btn-success" type="submit"><i
-                                    class="glyphicon glyphicon-ok-sign"></i> Save
+                                    class="glyphicon glyphicon-ok-sign"></i> Lưu
                                 </button>
                             </div>
                         </div>

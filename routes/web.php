@@ -20,29 +20,42 @@ Route::get('/report/user/{auth}', 'CustomerController@intergration');
 Route::get('/review/user/{auth}', 'CustomerController@review360');
 Route::get('/review/user/success/{auth}', 'CustomerController@success');
 
-Route::get('/home', 'UserController@index')->name('home');
+Route::get('/home', 'Admin\UserController@index')->name('home');
 
-Route::resource('users', 'UserController');
-Route::resource('apartments', 'ApartmentController');
-Route::get('user-profile', 'UserController@profile');
+Route::resource('users', 'Admin\UserController');
+Route::resource('apartments', 'Admin\ApartmentController');
+Route::get('profile', 'UserEditController@profile');
+Route::get('change-password', 'UserEditController@password');
+Route::post('change-password', 'UserEditController@changePassword');
+Route::post('user-profile', 'UserEditController@updateProfile');
 Route::resource('report/market', 'ReportMarketController');
 Route::resource('/review/report', 'ReviewController');
 Route::resource('/feedback/report', 'FeedbackController');
+Route::resource('/customer/feedback/report', 'CustomerFeedbackController');
+Route::get('/customer/feedback/{code}', 'CustomerFeedbackController@indexCode');
+Route::get('/review/feedback', 'ReviewViewController@feedbackMe');
+Route::get('/review/feedback/apartment', 'ReviewViewController@feedbackApartment');
+
+
+Route::post('/feedback/PR', 'FeedbackPRController@store');
+Route::post('/feedback/warehouse', 'FeedbackWareHouseController@store');
 
 Route::get('/category/{slug}', 'HomeController@category');
-Route::get('/profile', 'CustomerController@profile');
+// Route::get('/profile', 'CustomerController@profile');
 
-// Route::resource('categories', 'CategoryController');
+ Route::resource('categories', 'Admin\CategoryController');
 
 
 
 // Get data Table group
 Route::group(['prefix' => 'api/v1'], function() {
-
-	Route::get('category/table', 'DataBaseApi\DataTableController@anyData')->name('category.api.data');
+	Route::get('category/table', 'DataApi\CategoryApiController@anyData')->name('category.api.data');
 	Route::get('users/table', 'DataApi\UserApiController@anyData')->name('users.api.data');
 	Route::get('apartments/table', 'DataApi\ApartmentApiController@anyData')->name('apartments.api.data');
 	Route::get('report/market/table', 'DataApi\ReportMarketController@anyData')->name('report_market.api.data');
+	Route::get('report/review/table', 'DataApi\ReportApiController@reviewData')->name('report_review.api.data');
+	Route::get('report/review/feedbackme/table', 'DataApi\ReportApiController@feedbackMeData')->name('report_feedbackme.api.data');
+	Route::get('report/review/feedback/apartment/table', 'DataApi\ReportApiController@feedbackApartmentData')->name('report_feedback_apartment.api.data');
 
 
 });

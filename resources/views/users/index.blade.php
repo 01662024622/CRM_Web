@@ -1,41 +1,7 @@
 @extends('layouts.app')
 @section('css')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
-<style type="text/css" media="screen">
-  #name-error{
-    color: #5a5c69;
-    font-size: 0.8rem;
-    position: relative;
-    line-height: 1;
-    color: red
-  }
-  .error{
-    color: #5a5c69;
-    font-size: 1rem;
-    position: relative;
-    line-height: 1;
-    color: red;
-    width: 100%;
-  }
-  .image-product{
-    width: 200px;
-    height: auto;
-  }
-  .dataTables_wrapper .dataTables_paginate .paginate_button {
-    box-sizing: border-box;
-    display: inline-block;
-    min-width: 1.5em;
-    padding: 0.5em 1em;
-    margin-left: 2px;
-    text-align: center;
-    text-decoration: none !important;
-    cursor: pointer;
-    *cursor: hand;
-    color: #333 !important;
-    border: 1px solid transparent;
-    border-radius: 2px;
-  }
-</style>
+
 @endsection
 @section('content')
 

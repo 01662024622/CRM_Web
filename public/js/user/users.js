@@ -32,7 +32,7 @@ var dataTable = $('#users-table').DataTable({
         }
     },
     columns: [
-        {data: 'id', name: 'id'},
+        {data: 'DT_RowIndex', name: 'DT_RowIndex'},
         {data: 'name', name: 'name'},
         {data: 'email', name: 'email'},
         {data: 'phone', name: 'phone'},
