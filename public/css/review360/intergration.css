@@ -171,7 +171,7 @@
     .form-label-header{
         padding-left: 10px;
         color: #495057 !important;
-        
+
         font-weight: 300 !important;
         font-size: 1.2rem !important;
     }
@@ -185,3 +185,13 @@
     .warehouse{
         display: none;
     }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}

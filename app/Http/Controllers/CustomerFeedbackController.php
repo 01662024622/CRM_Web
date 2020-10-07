@@ -26,6 +26,13 @@ class CustomerFeedbackController extends ResouceController
     }
     public function show($id)
     {
+        if (B20Customer::where("Code",$id)->first())
+            return "true";
+        else return response()
+            ->json([
+                'code' => 400,
+                'message' => 'Mã khách hàng không hợp lệ!'
+            ], 400);
     }
     public function indexCode($code)
     {
@@ -41,4 +48,5 @@ class CustomerFeedbackController extends ResouceController
     {
         return $this->indexCode("");
     }
+
 }

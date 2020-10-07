@@ -28,7 +28,7 @@ class CustomerController extends Controller
             Auth::logout();
         }
         Auth::login($user);
-        return view('report_review.intergration', ['apartment' => $user->apartment->name, "apartments" => Apartment::where("status", 0)->get()]);
+        return view('report_review.feedback', ['apartment' => $user->apartment->name, "apartments" => Apartment::where("status", 0)->get(),'active' => 'create_review360','group'=>'reports']);
     }
 
     public function success($auth)

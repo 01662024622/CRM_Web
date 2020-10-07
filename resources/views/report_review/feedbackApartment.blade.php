@@ -9,6 +9,7 @@
     <thead>
         <tr>
             <th>ID</th>
+            <th>Feedback</th>
             <th>Nội dung</th>
             <th>Ghi chú</th>
             <th>Phản Hồi</th>

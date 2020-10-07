@@ -55,6 +55,7 @@
                   <option value="giao-nhan">Feedback khách hàng</option>
                   <option value="san-pham">Feedback Kho</option>
                   <option value="pr">Feedback đối ngoại</option>
+                  <option value="link">Lấy link feedback</option>
                 </select>
               </div>
             </div>
@@ -318,6 +319,28 @@
       </div>
       <div class="container-form" style="border:none; box-shadow:none;background:none">
         <button class="btn btn-primary" type="submit" id="submit-pr" disabled>Gửi</button>
+      </div>
+    </div>
+
+    <div id="link" class="report">
+        <div class="container-form">
+          <div class="card-details">
+            <h3 class="title">Lấy link feedback cho khách hàng</h3>
+            <div class="row">
+             <div class="form-group col-sm-12">
+              <label for="card-holder" class="form-label-header">Mã khách hàng*</label>
+              <input class="text-button" type="text" name="code" id="code-link" placeholder="Mã khách hàng">
+              <div class="col-10" id="link"><input type="text" id="link-text"></div>
+              <div class="col-2"><button id="coppy-link"></button></div>
+              <br>
+              <br>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container-form" style="border:none; box-shadow:none;background:none">
+        <button class="btn btn-primary" type="submit" id="submit-link" disabled>Gửi</button>
       </div>
     </div>
 

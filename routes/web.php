@@ -31,10 +31,19 @@ Route::post('user-profile', 'UserEditController@updateProfile');
 Route::resource('report/market', 'ReportMarketController');
 Route::resource('/review/report', 'ReviewController');
 Route::resource('/feedback/report', 'FeedbackController');
+
 Route::resource('/customer/feedback/report', 'CustomerFeedbackController');
-Route::get('/customer/feedback/{code}', 'CustomerFeedbackController@indexCode');
+Route::get('/customer/feedback/link/{code}', 'CustomerFeedbackController@indexCode');
+
+
 Route::get('/review/feedback', 'ReviewViewController@feedbackMe');
 Route::get('/review/feedback/apartment', 'ReviewViewController@feedbackApartment');
+Route::get('/review/warehouse/report', 'ReviewViewController@warehouse');
+Route::get('/review/warehouse/manager/report', 'ReviewViewController@warehouseManager');
+Route::get('/review/public/relationship/report', 'ReviewViewController@publicRelationship');
+Route::get('/review/public/relationship/manager/report', 'ReviewViewController@publicRelationshipManager');
+Route::get('/review/feedback/customer/report', 'ReviewViewController@feedbackCustomer');
+Route::get('/review/feedback/customer/manager/report', 'ReviewViewController@feedbackCustomerManager');
 
 
 Route::post('/feedback/PR', 'FeedbackPRController@store');
@@ -56,7 +65,12 @@ Route::group(['prefix' => 'api/v1'], function() {
 	Route::get('report/review/table', 'DataApi\ReportApiController@reviewData')->name('report_review.api.data');
 	Route::get('report/review/feedbackme/table', 'DataApi\ReportApiController@feedbackMeData')->name('report_feedbackme.api.data');
 	Route::get('report/review/feedback/apartment/table', 'DataApi\ReportApiController@feedbackApartmentData')->name('report_feedback_apartment.api.data');
-
+	Route::get('report/review/feedback/warehouse/table', 'DataApi\ReportApiController@feedbackWarehouseData')->name('report_feedback_warehouse.api.data');
+    Route::get('report/review/feedback/warehouse/manager/table', 'DataApi\ReportApiController@feedbackWarehouseDataManager')->name('report_feedback_warehouse_manager.api.data');
+    Route::get('report/review/feedback/public/relationship/table', 'DataApi\ReportApiController@feedbackPRData')->name('report_feedback_pr.api.data');
+    Route::get('report/review/feedback/public/relationship/manager/table', 'DataApi\ReportApiController@feedbackPRDataManager')->name('report_feedback_pr_manager.api.data');
+    Route::get('report/review/feedback/customer/table', 'DataApi\ReportApiController@feedbackCustomerData')->name('report_feedback_customer.api.data');
+    Route::get('report/review/feedback/customer/manager/table', 'DataApi\ReportApiController@feedbackCustomerDataManager')->name('report_feedback_customer_manager.api.data');
 
 });
 

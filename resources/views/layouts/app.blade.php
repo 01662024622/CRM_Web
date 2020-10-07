@@ -28,7 +28,7 @@
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
             {{-- <div class="sidebar-brand-icon rotate-n-15">
               <i class="fas fa-laugh-wink"></i>
             </div> --}}
@@ -36,15 +36,15 @@
         </a>
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
-        <li class="nav-item">
-            <a class="nav-link" href="/">
-                <span>Trang Chủ</span></a>
-        </li>
+        @if(Auth::user()->role!="user")
+            <li class="nav-item">
+                <a class="nav-link" href="http://okrs.htauto.vn/">
+                    <span>Trang Chủ</span></a>
+            </li>
 
-    @if(Auth::user()->role!="user")
-        <!-- Nav Item - Dashboard -->
+            <!-- Nav Item - Dashboard -->
             <li @if ($group=='dashbroad') class="nav-item active" @else class="nav-item" @endif>
-                <a class="nav-link" href="/dashboard">
+                <a class="nav-link" href="http://okrs.htauto.vn/">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Tổng Hợp</span></a>
             </li>
@@ -104,46 +104,95 @@
             </li>
         @endif
         <hr class="sidebar-divider">
-            <li @if ($group=='reports') class="nav-item active" @else class="nav-item" @endif>
-                <a @if ($group=='reports') class="nav-link" aria-expanded="true" @else class="nav-link collapsed"
-                   aria-expanded="false" @endif href="#" data-toggle="collapse" data-target="#collapsePages3"
-                   aria-controls="collapsePages3">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Báo cáo</span>
-                </a>
-                <div id="collapsePages3" @if ($group=='reports') class="collapse show" @else class="collapse"
-                     @endif aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Review 360</h6>
-                            <a @if ($active=='review360') class="collapse-item active" @else class="collapse-item"
-                               @endif  href="/review/report">
-                                <i class="fas fa-fw fa-users"></i>
-                                <span>Feedback của tôi</span>
-                            </a>
-                            <a @if ($active=='feedbackme') class="collapse-item active" @else class="collapse-item"
-                               @endif  href="/review/feedback">
-                                <i class="fas fa-fw fa-users"></i>
-                                <span>Feedback tôi</span>
-                            </a>
-                            @if(sizeof(\App\Apartment::where("user_id",Auth::id())->where("status",0)->get())>0)
-                            <a @if ($active=='feedbackApartment') class="collapse-item active" @else class="collapse-item"
-                               @endif  href="/review/feedback/apartment">
-                                <i class="fas fa-fw fa-users"></i>
-                                <span>Feedback phòng ban</span>
-                            </a>
-                            @endif
-                    </div>
+        <li @if ($group=='reports') class="nav-item active" @else class="nav-item" @endif>
+            <a @if ($group=='reports') class="nav-link" aria-expanded="true" @else class="nav-link collapsed"
+               aria-expanded="false" @endif href="#" data-toggle="collapse" data-target="#collapsePages3"
+               aria-controls="collapsePages3">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Báo cáo</span>
+            </a>
+            <div id="collapsePages3" @if ($group=='reports') class="collapse show" @else class="collapse"
+                 @endif aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+
+                    <a @if ($active=='create_review360') class="collapse-item active" @else class="collapse-item"
+                       @endif  href="/review/user/{{Auth::user()->authentication}}">
+                        <i class="fa fa-user-plus"></i>
+                        <span>Tạo báo cáo mới</span>
+                    </a>
+                    <h6 class="collapse-header">Review 360</h6>
+                    <a @if ($active=='report_review') class="collapse-item active" @else class="collapse-item"
+                       @endif  href="/review/report">
+                        <i class="fa fa-user-plus"></i>
+                        <span>Feedback tôi tạo</span>
+                    </a>
+                    <a @if ($active=='feedbackme') class="collapse-item active" @else class="collapse-item"
+                       @endif  href="/review/feedback">
+                        <i class="fa fa-user-times"></i>
+                        <span>Feedback về tôi</span>
+                    </a>
+                    @if(sizeof($apartment_user)>0)
+                        <a @if ($active=='feedbackApartment') class="collapse-item active" @else class="collapse-item"
+                           @endif  href="/review/feedback/apartment">
+                            <i class="fas fa-fw fa-users"></i>
+                            <span>Feedback phòng ban</span>
+                        </a>
+                    @endif
+
+                    <h6 class="collapse-header">Feed Kho</h6>
+                    <a @if ($active=='warehouse') class="collapse-item active" @else class="collapse-item"
+                       @endif  href="/review/warehouse/report">
+                        <i class="fa fa-user-plus"></i>
+                        <span>Feedback tôi tạo</span>
+                    </a>
+
+                    @if(in_array(20,$apartment_user,true)|| Auth::user()->role!="user")
+                        <a @if ($active=='warehouseManager') class="collapse-item active" @else class="collapse-item"
+                           @endif  href="/review/warehouse/manager/report">
+                            <i class="fa fa-user-plus"></i>
+                            <span>Quản lý Feedback</span>
+                        </a>
+                    @endif
+                    <h6 class="collapse-header">Feed Đối Ngoại</h6>
+                    <a @if ($active=='pr') class="collapse-item active" @else class="collapse-item"
+                       @endif  href="/review/public/relationship/report">
+                        <i class="fa fa-user-plus"></i>
+                        <span>Feedback tôi tạo</span>
+                    </a>
+
+                    @if(in_array(3,$apartment_user,true)|| Auth::user()->role!="user")
+                        <a @if ($active=='prmanager') class="collapse-item active" @else class="collapse-item"
+                           @endif  href="/review/public/relationship/manager/report">
+                            <i class="fa fa-user-plus"></i>
+                            <span>Quản lý Feedback</span>
+                        </a>
+                    @endif
+                    <h6 class="collapse-header">Feed của khách hàng</h6>
+                    <a @if ($active=='feedback_customer') class="collapse-item active" @else class="collapse-item"
+                       @endif  href="/review/feedback/customer/report">
+                        <i class="fa fa-user-plus"></i>
+                        <span>Feedback tôi tạo</span>
+                    </a>
+
+                    @if(in_array(100,$apartment_user,true)|| Auth::user()->role!="user")
+                        <a @if ($active=='feedback_customer_manager') class="collapse-item active" @else class="collapse-item"
+                           @endif  href="/review/feedback/customer/manager/report">
+                            <i class="fa fa-user-plus"></i>
+                            <span>Quản lý Feedback</span>
+                        </a>
+                    @endif
                 </div>
-            </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/gioi-thieu">
-                <span>Giới Thiệu</span></a>
+            </div>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/contact">
-                <span>Liên Hệ và Phản Ánh</span></a>
-        </li>
-        <!-- Divider -->
+    {{-- <li class="nav-item">
+        <a class="nav-link" href="/gioi-thieu">
+            <span>Giới Thiệu</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/contact">
+            <span>Liên Hệ và Phản Ánh</span></a>
+    </li> --}}
+    <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">

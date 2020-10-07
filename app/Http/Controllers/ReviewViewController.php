@@ -21,4 +21,25 @@ class ReviewViewController extends ResouceController
     public function feedbackApartment(){
         return view("report_review.feedbackApartment",['active' => 'feedbackApartment','group'=>'reports']);
     }
+    public function warehouse(){
+        return view("report_review.warehouse",['active' => 'warehouse','group'=>'reports']);
+    }
+    public function warehouseManager(){
+        return view("report_review.warehouseManager",['active' => 'warehouseManager','group'=>'reports']);
+    }
+    public function publicRelationship(){
+        return view("report_review.pr",['active' => 'pr','group'=>'reports']);
+    }
+    public function publicRelationshipManager(){
+        return view("report_review.prmanager",['active' => 'prmanager','group'=>'reports']);
+    }
+    public function feedbackCustomer(){
+        return view("report_review.feedbackCustomer",['active' => 'feedback_customer','group'=>'reports']);
+    }
+    public function feedbackCustomerManager(){
+        return view("report_review.feedbackCustomerManager",['active' => 'feedback_customer_manager','group'=>'reports']);
+    }
+
+
+
 }
